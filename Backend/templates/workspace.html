@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wayfinder AI — Centralized Travel Operating System</title>
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .custom-scroll::-webkit-scrollbar { width: 6px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 h-screen flex flex-col overflow-hidden">
+
+  <!-- Top Navbar -->
+  <header class="h-14 border-b border-slate-800 bg-slate-950/80 backdrop-blur px-6 flex items-center justify-between shrink-0">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-cyan-500/20">
+        🧭
+      </div>
+      <div>
+        <span class="font-bold text-base tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Wayfinder AI</span>
+        <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800/60">Django + Amadeus</span>
+      </div>
+    </div>
+    <div class="flex items-center space-x-4 text-xs">
+      <div class="flex items-center space-x-2 text-slate-400">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Centralized DB: <strong class="text-slate-200">PostgreSQL/SQLite</strong></span>
+      </div>
+      <a href="/admin/" target="_blank" class="px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-medium border border-slate-700 flex items-center space-x-1.5">
+        <i class="fa-solid fa-database text-xs text-cyan-400"></i>
+        <span>Django Admin</span>
+      </a>
+      <a href="/api/agents/tools/" target="_blank" class="px-3 py-1.5 rounded-md bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 transition font-medium border border-cyan-800/50 flex items-center space-x-1.5">
+        <i class="fa-solid fa-code text-xs"></i>
+        <span>MCP Tools</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Split-Screen Workspace -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- Left Pane: Agent Chat Console (40% width) -->
+    <div class="w-2/5 border-r border-slate-800 flex flex-col bg-slate-950">
+      <div class="p-3 border-b border-slate-800/80 bg-slate-900/40 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-cyan-400"></div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-300">Coordinator Agent</span>
+        </div>
+        <span class="text-[11px] text-slate-500">Autonomous Multi-Agent Swarm</span>
+      </div>
+
+      <!-- Quick prompts -->
+      <div class="p-3 border-b border-slate-800/60 bg-slate-900/20 flex gap-2 overflow-x-auto text-xs whitespace-nowrap custom-scroll">
+        <button onclick="setPrompt('Plan a 5-day trip to Tokyo from JFK under $2500')" class="px-2.5 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition">
+          🇯🇵 5-day Tokyo under $2500
+        </button>
+        <button onclick="setPrompt('Plan a 4-day romantic trip to Paris from JFK under $2200')" class="px-2.5 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition">
+          🇫🇷 4-day Paris under $2200
+        </button>
+        <button onclick="setPrompt('Plan a 3-day weekend in London from JFK under $1800')" class="px-2.5 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition">
+          🇬🇧 3-day London under $1800
+        </button>
+      </div>
+
+      <!-- Chat Messages Container -->
+      <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4 custom-scroll text-sm">
+        <div class="flex items-start space-x-3">
+          <div class="w-7 h-7 rounded bg-cyan-600/30 text-cyan-400 flex items-center justify-center shrink-0 text-xs font-bold border border-cyan-500/30">AI</div>
+          <div class="bg-slate-900 p-3.5 rounded-xl rounded-tl-none border border-slate-800/80 max-w-[85%] text-slate-300 leading-relaxed shadow-sm">
+            <p class="font-medium text-slate-100 mb-1">Hello! I am your Wayfinder Coordinator Agent.</p>
+            <p class="text-xs text-slate-400">Tell me where and when you would like to travel, your passenger count, and your target budget ceiling. I will coordinate specialist agents, query Amadeus and Booking.com feeds, and construct a verified itinerary in our centralized database.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Input Box -->
+      <div class="p-3 border-t border-slate-800 bg-slate-900/60">
+        <form id="chatForm" onsubmit="handleSend(event)" class="relative flex items-center">
+          <input
+            id="chatInput"
+            type="text"
+            placeholder="e.g. Plan a 5-day trip to Tokyo from JFK under $2500"
+            class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-4 pr-12 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
+          />
+          <button
+            id="sendBtn"
+            type="submit"
+            class="absolute right-2 px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs shadow-md transition flex items-center space-x-1"
+          >
+            <span>Run</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Pane: Live Interactive Travel Canvas (60% width) -->
+    <div id="canvasPane" class="w-3/5 flex flex-col bg-slate-900 overflow-y-auto custom-scroll">
+      
+      <!-- Placeholder Banner before first run -->
+      <div id="emptyState" class="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-500">
+        <div class="w-16 h-16 rounded-2xl bg-slate-800/60 border border-slate-700/60 flex items-center justify-center text-2xl mb-4 text-cyan-400">
+          🗺️
+        </div>
+        <h3 class="text-lg font-semibold text-slate-300 mb-1">Trip Workspace Empty</h3>
+        <p class="text-xs max-w-sm text-slate-500">Select a quick prompt on the left or type your custom travel goal to trigger the multi-agent orchestration pipeline.</p>
+      </div>
+
+      <!-- Active Trip Proposal Canvas -->
+      <div id="tripContent" class="hidden p-6 space-y-6">
+
+        <!-- Trip Overview Header -->
+        <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-5 shadow-lg flex items-center justify-between">
+          <div>
+            <div class="flex items-center space-x-2">
+              <h2 id="tripTitle" class="text-xl font-bold text-white tracking-tight">5-Day Trip to Tokyo</h2>
+              <span id="tripStatus" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">
+                Itinerary Generated
+              </span>
+            </div>
+            <p id="tripDates" class="text-xs text-slate-400 mt-1">JFK → NRT • 2026-06-06 to 2026-06-11 • 1 Passenger</p>
+          </div>
+          <div class="text-right">
+            <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Estimated Total</span>
+            <span id="tripTotal" class="text-2xl font-black text-cyan-400">$1,840.00</span>
+          </div>
+        </div>
+
+        <!-- Flight & Hotel Cards Row -->
+        <div class="grid grid-cols-2 gap-4">
+
+          <!-- Flight Recommendation Card -->
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between hover:border-slate-700 transition">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <i class="fa-solid fa-plane"></i> Recommended Flight
+                </span>
+                <span id="flightAirline" class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-300">ANA NH009</span>
+              </div>
+              <div class="flex items-center justify-between my-3 text-center">
+                <div>
+                  <div id="flightOrigin" class="text-lg font-bold text-slate-100">JFK</div>
+                  <div class="text-[10px] text-slate-400">New York</div>
+                </div>
+                <div class="flex-1 px-3">
+                  <div id="flightStops" class="text-[10px] text-emerald-400 font-semibold mb-0.5">Non-stop</div>
+                  <div class="h-0.5 w-full bg-slate-700 relative">
+                    <i class="fa-solid fa-plane text-[9px] text-cyan-400 absolute left-1/2 -top-1 -translate-x-1/2"></i>
+                  </div>
+                  <div id="flightDuration" class="text-[10px] text-slate-400 mt-1">14h 00m</div>
+                </div>
+                <div>
+                  <div id="flightDest" class="text-lg font-bold text-slate-100">NRT</div>
+                  <div class="text-[10px] text-slate-400">Tokyo</div>
+                </div>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-slate-500">Live Provider Quote</span>
+                <div id="flightPrice" class="text-base font-bold text-slate-100">$950.00</div>
+              </div>
+              <span class="text-[11px] text-slate-400 bg-slate-900 px-2 py-1 rounded border border-slate-800">Shortlisted</span>
+            </div>
+          </div>
+
+          <!-- Hotel Recommendation Card -->
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between hover:border-slate-700 transition">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <i class="fa-solid fa-hotel"></i> Recommended Stay
+                </span>
+                <span id="hotelRating" class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-950/50 text-amber-300 border border-amber-800/50">★ 5.0 (9.4/10)</span>
+              </div>
+              <h4 id="hotelName" class="font-bold text-slate-100 text-sm mt-1">Park Hyatt Tokyo</h4>
+              <p id="hotelNeighborhood" class="text-xs text-slate-400 mt-0.5">Shinjuku, Tokyo</p>
+              <div id="hotelAmenities" class="flex flex-wrap gap-1 mt-2.5 text-[10px]">
+                <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-300">Skyline View</span>
+                <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-300">Fine Dining</span>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between mt-3">
+              <div>
+                <span class="text-[10px] text-slate-500">Nightly Rate</span>
+                <div id="hotelPrice" class="text-base font-bold text-slate-100">$450.00 / night</div>
+              </div>
+              <a
+                id="bookingAffiliateBtn"
+                href="#"
+                target="_blank"
+                class="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md transition flex items-center space-x-1"
+              >
+                <span>Book on Booking.com</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Budget Verification Widget -->
+        <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-chart-pie text-cyan-400"></i> Budget Verification (Django Centralized DB)
+            </span>
+            <span id="budgetAlertStatus" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">
+              Within Budget
+            </span>
+          </div>
+          <div class="grid grid-cols-3 gap-3 text-center my-2 text-xs">
+            <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+              <span class="text-slate-500 block text-[10px]">Budget Ceiling</span>
+              <strong id="bCeiling" class="text-slate-200 text-sm">$2,500.00</strong>
+            </div>
+            <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+              <span class="text-slate-500 block text-[10px]">Total Proposal Cost</span>
+              <strong id="bTotal" class="text-cyan-400 text-sm">$1,840.00</strong>
+            </div>
+            <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+              <span class="text-slate-500 block text-[10px]">Remaining Cushion</span>
+              <strong id="bRemaining" class="text-emerald-400 text-sm">+$660.00</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily Itinerary Timeline -->
+        <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-calendar-days text-purple-400"></i> Daily Curated Itinerary
+            </span>
+            <span id="dayCount" class="text-xs text-slate-400">5 Days</span>
+          </div>
+          <div id="itineraryTimeline" class="space-y-3">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Safe Booking State Machine Simulator -->
+        <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-shield-halved text-emerald-400"></i> Booking Safety Protocol (FSM Simulator)
+            </span>
+            <span id="fsmStatusBadge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
+              STATUS: DRAFT
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 mb-3">
+            Deterministic state machine prevents hallucinations, double-bookings, and enforces live price validation before user authorization.
+          </p>
+          <div class="flex items-center space-x-3">
+            <button
+              id="validateQuoteBtn"
+              onclick="handleValidateQuote()"
+              class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center space-x-1.5"
+            >
+              <i class="fa-solid fa-rotate text-cyan-400 text-[11px]"></i>
+              <span>1. Validate Live Quote</span>
+            </button>
+            <button
+              id="requestApprovalBtn"
+              onclick="handleRequestApproval()"
+              disabled
+              class="px-3 py-2 rounded-lg bg-slate-800 opacity-50 cursor-not-allowed text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center space-x-1.5"
+            >
+              <i class="fa-solid fa-user-check text-amber-400 text-[11px]"></i>
+              <span>2. Request Approval</span>
+            </button>
+            <button
+              id="confirmBookingBtn"
+              onclick="handleConfirmBooking()"
+              disabled
+              class="px-3.5 py-2 rounded-lg bg-emerald-600 opacity-50 cursor-not-allowed hover:bg-emerald-500 text-white text-xs font-semibold shadow-md transition flex items-center space-x-1.5"
+            >
+              <i class="fa-solid fa-lock text-[11px]"></i>
+              <span>3. Confirm Sandbox Booking</span>
+            </button>
+          </div>
+          <div id="bookingLog" class="hidden mt-3 p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300 space-y-1">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentProposal = null;
+    let currentBookingId = null;
+    let currentApprovalToken = null;
+
+    function setPrompt(text) {
+      document.getElementById('chatInput').value = text;
+      document.getElementById('chatInput').focus();
+    }
+
+    async function handleSend(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendChatMessage("user", text);
+      input.value = "";
+
+      const sendBtn = document.getElementById('sendBtn');
+      sendBtn.disabled = true;
+      sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+      try {
+        const res = await fetch('/api/agents/plan/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: text })
+        });
+        const data = await res.json();
+        currentProposal = data;
+
+        appendChatMessage("ai", data.narrative);
+        renderProposalCanvas(data);
+        createBookingDraft(data);
+      } catch (err) {
+        appendChatMessage("ai", "An error occurred while coordinating travel proposal: " + err.message);
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = '<span>Run</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>';
+      }
+    }
+
+    function appendChatMessage(sender, text) {
+      const container = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = "flex items-start space-x-3";
+
+      if (sender === "user") {
+        msgDiv.innerHTML = `
+          <div class="flex-1"></div>
+          <div class="bg-cyan-600 text-white p-3 rounded-xl rounded-tr-none max-w-[85%] text-xs shadow">
+            ${text}
+          </div>
+          <div class="w-7 h-7 rounded bg-slate-700 text-slate-200 flex items-center justify-center shrink-0 text-xs font-bold">U</div>
+        `;
+      } else {
+        // Convert simple markdown to html
+        const html = text
+          .replace(/### (.*?)\n/g, '<h4 class="font-bold text-slate-100 text-sm mt-2 mb-1">$1</h4>')
+          .replace(/#### (.*?)\n/g, '<h5 class="font-semibold text-cyan-400 text-xs mt-2 mb-0.5">$1</h5>')
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/- (.*?)\n/g, '<li class="ml-3 text-xs text-slate-300 list-disc">$1</li>')
+          .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" class="text-cyan-400 underline hover:text-cyan-300">$1</a>')
+          .replace(/\n\n/g, '<br/>');
+
+        msgDiv.innerHTML = `
+          <div class="w-7 h-7 rounded bg-cyan-600/30 text-cyan-400 flex items-center justify-center shrink-0 text-xs font-bold border border-cyan-500/30">AI</div>
+          <div class="bg-slate-900 p-3.5 rounded-xl rounded-tl-none border border-slate-800/80 max-w-[85%] text-slate-300 leading-relaxed shadow-sm text-xs">
+            ${html}
+          </div>
+        `;
+      }
+
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function renderProposalCanvas(data) {
+      document.getElementById('emptyState').classList.add('hidden');
+      document.getElementById('tripContent').classList.remove('hidden');
+
+      const trip = data.trip;
+      const flight = data.flight_recommendation;
+      const hotel = data.hotel_recommendation;
+      const budget = data.budget_analysis;
+
+      document.getElementById('tripTitle').innerText = trip.title;
+      document.getElementById('tripDates').innerText = `${trip.origin_city} → ${trip.destination_city} • ${trip.start_date} to ${trip.end_date} • ${trip.passenger_count} Passenger`;
+      document.getElementById('tripTotal').innerText = `$${parseFloat(budget.total_estimated_cost).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+
+      // Flight card
+      document.getElementById('flightAirline').innerText = `${flight.airline || 'Airline'} ${flight.flight_number || ''}`;
+      document.getElementById('flightOrigin').innerText = flight.origin_iata || trip.origin_city;
+      document.getElementById('flightDest').innerText = flight.destination_iata || trip.destination_city;
+      document.getElementById('flightStops').innerText = flight.stops === 0 ? "Non-stop" : `${flight.stops} stops`;
+      document.getElementById('flightDuration').innerText = `${Math.floor((flight.duration_minutes || 0) / 60)}h ${(flight.duration_minutes || 0) % 60}m`;
+      document.getElementById('flightPrice').innerText = `$${parseFloat(flight.total_amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+
+      // Hotel card
+      document.getElementById('hotelName').innerText = hotel.name || 'Hotel Property';
+      document.getElementById('hotelNeighborhood').innerText = `${hotel.neighborhood || ''}, ${hotel.city || trip.destination_city}`;
+      document.getElementById('hotelRating').innerText = `★ ${hotel.star_rating || 4.0} (${hotel.review_score || 8.5}/10)`;
+      document.getElementById('hotelPrice').innerText = `$${parseFloat(hotel.price_per_night || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })} / night`;
+      if (hotel.affiliate_booking_url) {
+        document.getElementById('bookingAffiliateBtn').href = hotel.affiliate_booking_url;
+      }
+
+      // Budget
+      document.getElementById('bCeiling').innerText = `$${parseFloat(budget.budget_ceiling).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+      document.getElementById('bTotal').innerText = `$${parseFloat(budget.total_estimated_cost).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+      const rem = parseFloat(budget.remaining_budget);
+      document.getElementById('bRemaining').innerText = `${rem >= 0 ? '+' : ''}$${rem.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+      document.getElementById('bRemaining').className = rem >= 0 ? "text-emerald-400 text-sm" : "text-rose-400 text-sm";
+      document.getElementById('budgetAlertStatus').innerText = rem >= 0 ? "Within Budget" : "Over Budget Ceiling";
+      document.getElementById('budgetAlertStatus').className = rem >= 0 ? "text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800" : "text-xs font-semibold px-2 py-0.5 rounded-full bg-rose-950 text-rose-400 border border-rose-800";
+
+      // Itinerary Days
+      const timeline = document.getElementById('itineraryTimeline');
+      timeline.innerHTML = '';
+      document.getElementById('dayCount').innerText = `${trip.days.length} Days`;
+
+      trip.days.forEach(day => {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = "p-3 rounded-lg bg-slate-900/60 border border-slate-800/80 text-xs";
+        
+        let activitiesHtml = '';
+        if (day.activities_json && day.activities_json.length) {
+          activitiesHtml = day.activities_json.map(act => `
+            <div class="mt-2 pl-2 border-l-2 border-slate-700">
+              <span class="text-[10px] font-semibold text-cyan-400 uppercase tracking-wider">${act.time_of_day}:</span>
+              <strong class="text-slate-200 ml-1">${act.title}</strong>
+              <p class="text-[11px] text-slate-400 mt-0.5">${act.description || ''}</p>
+            </div>
+          `).join('');
+        }
+
+        dayDiv.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-200">Day ${day.day_number}: ${day.theme}</span>
+            <span class="text-slate-400 font-mono">$${parseFloat(day.day_cost_estimate).toFixed(2)}</span>
+          </div>
+          ${activitiesHtml}
+        `;
+        timeline.appendChild(dayDiv);
+      });
+    }
+
+    async function createBookingDraft(data) {
+      try {
+        const trip = data.trip;
+        const flight = data.flight_recommendation;
+        const res = await fetch('/api/bookings/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            trip: trip.id,
+            item_type: 'flight',
+            provider: 'amadeus',
+            flight_offer_id: flight.id,
+            total_amount: flight.total_amount,
+            currency: flight.currency || 'USD'
+          })
+        });
+        const booking = await res.json();
+        currentBookingId = booking.id;
+        document.getElementById('fsmStatusBadge').innerText = `STATUS: ${booking.status}`;
+        logBookingStep(`Booking record initialized in Django DB with ID: ${booking.id}`);
+      } catch (e) {
+        console.error("Failed to create booking draft:", e);
+      }
+    }
+
+    async function handleValidateQuote() {
+      if (!currentBookingId) return;
+      try {
+        const res = await fetch(`/api/bookings/${currentBookingId}/validate_quote/`, { method: 'POST' });
+        const data = await res.json();
+        document.getElementById('fsmStatusBadge').innerText = `STATUS: ${data.booking.status}`;
+        document.getElementById('requestApprovalBtn').disabled = false;
+        document.getElementById('requestApprovalBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+        document.getElementById('validateQuoteBtn').disabled = true;
+        document.getElementById('validateQuoteBtn').classList.add('opacity-50', 'cursor-not-allowed');
+        logBookingStep(`✓ Quote freshness and price verified with Amadeus. Transitioned to QUOTE_VALIDATED.`);
+      } catch (e) {
+        logBookingStep(`Quote validation failed: ${e.message}`);
+      }
+    }
+
+    async function handleRequestApproval() {
+      if (!currentBookingId) return;
+      try {
+        const res = await fetch(`/api/bookings/${currentBookingId}/request_approval/`, { method: 'POST' });
+        const data = await res.json();
+        currentApprovalToken = data.approval_token;
+        document.getElementById('fsmStatusBadge').innerText = `STATUS: ${data.booking.status}`;
+        document.getElementById('confirmBookingBtn').disabled = false;
+        document.getElementById('confirmBookingBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+        document.getElementById('requestApprovalBtn').disabled = true;
+        document.getElementById('requestApprovalBtn').classList.add('opacity-50', 'cursor-not-allowed');
+        logBookingStep(`✓ Approval token generated: ${currentApprovalToken.slice(0, 8)}... Awaiting explicit user confirmation.`);
+      } catch (e) {
+        logBookingStep(`Request approval failed: ${e.message}`);
+      }
+    }
+
+    async function handleConfirmBooking() {
+      if (!currentBookingId || !currentApprovalToken) return;
+      try {
+        const res = await fetch(`/api/bookings/${currentBookingId}/approve/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ approval_token: currentApprovalToken })
+        });
+        const data = await res.json();
+        document.getElementById('fsmStatusBadge').innerText = `STATUS: ${data.booking.status}`;
+        document.getElementById('fsmStatusBadge').className = "text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800";
+        document.getElementById('confirmBookingBtn').disabled = true;
+        document.getElementById('confirmBookingBtn').classList.add('opacity-50', 'cursor-not-allowed');
+        logBookingStep(`🎉 CONFIRMED! Received PNR: ${data.pnr}. Flight offer ticketed in sandbox mode.`);
+      } catch (e) {
+        logBookingStep(`Confirmation failed: ${e.message}`);
+      }
+    }
+
+    function logBookingStep(text) {
+      const log = document.getElementById('bookingLog');
+      log.classList.remove('hidden');
+      const item = document.createElement('div');
+      item.innerText = `> ${text}`;
+      log.appendChild(item);
+    }
+  </script>
+</body>
+</html>
+
