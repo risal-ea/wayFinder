@@ -16,8 +16,8 @@ class MasterHotelAdmin(admin.ModelAdmin):
 
 @admin.register(FlightOffer)
 class FlightOfferAdmin(admin.ModelAdmin):
-    list_display = ('airline_name', 'flight_number', 'origin_airport', 'destination_airport', 'departure_time', 'stops', 'total_amount', 'currency', 'is_refundable', 'expires_at')
+    list_display = ('airline_name', 'flight_number', 'origin_airport', 'destination_airport', 'departure_time', 'is_round_trip', 'stops', 'total_amount', 'currency', 'is_refundable', 'expires_at')
     search_fields = ('airline_name', 'flight_number', 'origin_airport__iata_code', 'destination_airport__iata_code')
-    list_filter = ('airline_name', 'cabin_class', 'stops', 'is_refundable', 'currency')
+    list_filter = ('airline_name', 'cabin_class', 'stops', 'is_round_trip', 'is_refundable', 'currency')
     readonly_fields = ('id', 'fetched_at')
 

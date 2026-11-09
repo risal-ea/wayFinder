@@ -74,13 +74,16 @@ class TripViewSet(viewsets.ModelViewSet):
 class SearchFlightsAPIView(APIView):
     """
     Searches flights via active provider (Amadeus or Mock), ingests into Central DB, and returns results.
+    Supports one-way and round-trip searches.
     """
     def post(self, request):
-        origin = request.data.get('origin')
-        destination = request.data.get('destination')
-        departure_date = request.data.get('departure_date')
-        passengers = int(request.data.get('passengers', 1))
-        cabin_class = request.data.get('cabin_class', 'economy')
+        params = request.data if request.data else request.query_params
+        origin = params.get('origin')
+        destination = params.get('destination')
+        departure_date = params.get('departure_date')
+        return_date = params.get('return_date')
+        passengers = int(params.get('passengers', 1))
+        cabin_class = params.get('cabin_class', 'economy')
 
         if not origin or not destination or not departure_date:
             return Response(
@@ -94,6 +97,7 @@ class SearchFlightsAPIView(APIView):
                 origin=origin,
                 destination=destination,
                 departure_date=departure_date,
+                return_date=return_date,
                 passengers=passengers,
                 cabin_class=cabin_class
             )

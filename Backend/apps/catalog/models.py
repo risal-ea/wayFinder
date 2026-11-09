@@ -65,7 +65,19 @@ class FlightOffer(models.Model):
     stops = models.IntegerField(default=0)
     cabin_class = models.CharField(max_length=30, default="economy")
 
-    # Pricing
+    # Round trip support
+    is_round_trip = models.BooleanField(default=False)
+    return_departure_time = models.DateTimeField(null=True, blank=True)
+    return_arrival_time = models.DateTimeField(null=True, blank=True)
+    return_flight_number = models.CharField(max_length=20, blank=True)
+
+    # Detailed segments and raw payload
+    segments_json = models.JSONField(default=list, blank=True)
+    raw_amadeus_offer = models.JSONField(default=dict, blank=True)
+
+    # Pricing breakdown
+    base_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    tax_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=3, default="USD")
 

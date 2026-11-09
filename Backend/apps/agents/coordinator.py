@@ -120,6 +120,7 @@ class TravelCoordinatorAgent:
             origin=parsed["origin"],
             destination=parsed["destination"],
             departure_date=parsed["start_date"],
+            return_date=parsed["end_date"] if parsed.get("is_round_trip", True) else None,
             passengers=parsed["passengers"],
         )
 
@@ -181,4 +182,23 @@ class TravelCoordinatorAgent:
             "flight_recommendation": best_flight,
             "hotel_recommendation": best_hotel,
             "budget_analysis": budget_report,
+        }
+
+    def search_flights_only(self, user_prompt: str) -> Dict[str, Any]:
+        """Specialized flight search query handler."""
+        parsed = self.parse_intent_fallback(user_prompt)
+        is_one_way = "one-way" in user_prompt.lower() or "oneway" in user_prompt.lower()
+        cabin_class = "business" if "business" in user_prompt.lower() else "economy"
+
+        ranked = self.flight_agent.search_and_rank_flights(
+            origin=parsed["origin"],
+            destination=parsed["destination"],
+            departure_date=parsed["start_date"],
+            return_date=None if is_one_way else parsed["end_date"],
+            passengers=parsed["passengers"],
+            cabin_class=cabin_class
+        )
+        return {
+            "narrative": ranked["summary"],
+            "flight_results": ranked,
         }

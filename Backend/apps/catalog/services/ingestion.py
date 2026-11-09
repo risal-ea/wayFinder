@@ -33,6 +33,7 @@ class TravelIngestionService:
         origin: str,
         destination: str,
         departure_date: str,
+        return_date: str = None,
         passengers: int = 1,
         cabin_class: str = "economy"
     ) -> List[FlightOffer]:
@@ -43,6 +44,7 @@ class TravelIngestionService:
             origin=origin,
             destination=destination,
             departure_date=departure_date,
+            return_date=return_date,
             passengers=passengers,
             cabin_class=cabin_class
         )
@@ -65,6 +67,21 @@ class TravelIngestionService:
             if timezone.is_naive(arr_dt):
                 arr_dt = timezone.make_aware(arr_dt)
 
+            ret_dep_dt = None
+            ret_arr_dt = None
+            if raw.get("return_departure_time"):
+                ret_dep_dt = datetime.datetime.fromisoformat(raw["return_departure_time"])
+                if timezone.is_naive(ret_dep_dt):
+                    ret_dep_dt = timezone.make_aware(ret_dep_dt)
+            if raw.get("return_arrival_time"):
+                ret_arr_dt = datetime.datetime.fromisoformat(raw["return_arrival_time"])
+                if timezone.is_naive(ret_arr_dt):
+                    ret_arr_dt = timezone.make_aware(ret_arr_dt)
+
+            total_amt = Decimal(str(raw["total_amount"]))
+            base_amt = Decimal(str(raw.get("base_amount", round(float(total_amt) * 0.85, 2))))
+            tax_amt = Decimal(str(raw.get("tax_amount", round(float(total_amt) - float(base_amt), 2))))
+
             offer = FlightOffer.objects.create(
                 provider=raw.get("provider", "amadeus"),
                 provider_offer_id=raw["provider_offer_id"],
@@ -77,7 +94,15 @@ class TravelIngestionService:
                 duration_minutes=raw["duration_minutes"],
                 stops=raw["stops"],
                 cabin_class=raw["cabin_class"],
-                total_amount=Decimal(str(raw["total_amount"])),
+                is_round_trip=raw.get("is_round_trip", bool(return_date)),
+                return_departure_time=ret_dep_dt,
+                return_arrival_time=ret_arr_dt,
+                return_flight_number=raw.get("return_flight_number", ""),
+                segments_json=raw.get("segments", []),
+                raw_amadeus_offer=raw.get("raw_amadeus_offer", {}),
+                base_amount=base_amt,
+                tax_amount=tax_amt,
+                total_amount=total_amt,
                 currency=raw.get("currency", "USD"),
                 cabin_bags=raw.get("cabin_bags", 1),
                 checked_bags=raw.get("checked_bags", 1),

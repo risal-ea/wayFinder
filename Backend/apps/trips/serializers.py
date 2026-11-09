@@ -18,7 +18,9 @@ class FlightOfferSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'provider', 'provider_offer_id', 'airline_name', 'flight_number',
             'origin_airport', 'destination_airport', 'departure_time', 'arrival_time',
-            'duration_minutes', 'stops', 'cabin_class', 'total_amount', 'currency',
+            'duration_minutes', 'stops', 'cabin_class', 'is_round_trip',
+            'return_departure_time', 'return_arrival_time', 'return_flight_number',
+            'segments_json', 'base_amount', 'tax_amount', 'total_amount', 'currency',
             'cabin_bags', 'checked_bags', 'is_refundable', 'fetched_at', 'expires_at',
             'is_expired', 'booking_url'
         ]

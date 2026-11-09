@@ -21,7 +21,7 @@ class AgentPlanAPIView(APIView):
 
 class AgentChatAPIView(APIView):
     """
-    Conversational endpoint interfacing with the Travel Coordinator.
+    Conversational endpoint interfacing with the Travel Coordinator & Flight Specialist.
     """
     def post(self, request):
         message = request.data.get("message")
@@ -29,11 +29,35 @@ class AgentChatAPIView(APIView):
             return Response({"error": "message parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
 
         coordinator = TravelCoordinatorAgent()
+        msg_lower = message.lower()
+        
+        # If user specifically asks for flights or airline search
+        if any(w in msg_lower for w in ["flight", "flights", "fly", "airline", "non-stop", "cheapest to"]):
+            flight_res = coordinator.search_flights_only(message)
+            return Response({
+                "response": flight_res["narrative"],
+                "flight_results": flight_res["flight_results"],
+            }, status=status.HTTP_200_OK)
+
         proposal = coordinator.plan_trip(message)
         return Response({
             "response": proposal["narrative"],
             "trip": proposal["trip"],
         }, status=status.HTTP_200_OK)
+
+
+class AgentFlightSearchAPIView(APIView):
+    """
+    Dedicated endpoint for Flight Specialist agent queries.
+    """
+    def post(self, request):
+        prompt = request.data.get("prompt")
+        if not prompt:
+            return Response({"error": "prompt parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        coordinator = TravelCoordinatorAgent()
+        result = coordinator.search_flights_only(prompt)
+        return Response(result, status=status.HTTP_200_OK)
 
 
 class MCPToolsListAPIView(APIView):
@@ -58,4 +82,3 @@ class MCPToolsListAPIView(APIView):
             return Response({"tool": tool_name, "result": result}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-

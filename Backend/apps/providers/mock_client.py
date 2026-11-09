@@ -137,10 +137,113 @@ class MockTravelProvider(BaseTravelProvider):
             ]
 
         results = []
+        is_round_trip = bool(return_date)
+        ret_dep_dt = None
+        if return_date:
+            ret_dep_dt = datetime.datetime.fromisoformat(return_date) if "T" in return_date else datetime.datetime.strptime(return_date, "%Y-%m-%d").replace(hour=14, minute=0)
+
         for i, (airline, flight_no, duration, stops, base_price) in enumerate(flights):
             offer_id = f"mock-fl-{origin}-{destination}-{i+1}"
             arr_dt = dep_dt + datetime.timedelta(minutes=duration)
-            total = round(base_price * passengers * (1.8 if cabin_class == "business" else 1.0), 2)
+            multiplier = 1.0
+            if cabin_class.lower() == "business":
+                multiplier = 2.4
+            elif cabin_class.lower() == "first":
+                multiplier = 4.0
+            elif cabin_class.lower() == "premium_economy":
+                multiplier = 1.4
+
+            if is_round_trip:
+                multiplier *= 1.85
+
+            total = round(base_price * passengers * multiplier, 2)
+            base_amt = round(total * 0.85, 2)
+            tax_amt = round(total - base_amt, 2)
+
+            carrier_code = flight_no[:2]
+            aircraft = "Boeing 787-9 Dreamliner" if duration > 500 else "Airbus A321neo"
+
+            # Build outbound segments
+            segments = []
+            if stops == 0:
+                segments.append({
+                    "leg": "outbound",
+                    "carrier_code": carrier_code,
+                    "airline_name": airline,
+                    "flight_number": flight_no,
+                    "origin": origin,
+                    "destination": destination,
+                    "departure_time": dep_dt.isoformat(),
+                    "arrival_time": arr_dt.isoformat(),
+                    "departure_terminal": "4",
+                    "arrival_terminal": "1",
+                    "duration_minutes": duration,
+                    "aircraft": aircraft,
+                    "cabin_class": cabin_class,
+                })
+            else:
+                # 1 stop via hub (e.g. FRA or ORD or HND)
+                hub = "FRA" if origin == "JFK" and destination in ("NRT", "HND") else "ORD"
+                seg1_dur = int(duration * 0.45)
+                layover_dur = 90
+                seg2_dur = duration - seg1_dur
+                seg1_arr = dep_dt + datetime.timedelta(minutes=seg1_dur)
+                seg2_dep = seg1_arr + datetime.timedelta(minutes=layover_dur)
+                seg2_arr = seg2_dep + datetime.timedelta(minutes=seg2_dur)
+
+                segments.append({
+                    "leg": "outbound",
+                    "carrier_code": carrier_code,
+                    "airline_name": airline,
+                    "flight_number": flight_no,
+                    "origin": origin,
+                    "destination": hub,
+                    "departure_time": dep_dt.isoformat(),
+                    "arrival_time": seg1_arr.isoformat(),
+                    "departure_terminal": "4",
+                    "arrival_terminal": "2",
+                    "duration_minutes": seg1_dur,
+                    "aircraft": "Boeing 777-300ER",
+                    "cabin_class": cabin_class,
+                    "layover_minutes": layover_dur,
+                    "layover_airport": hub,
+                })
+                segments.append({
+                    "leg": "outbound",
+                    "carrier_code": carrier_code,
+                    "airline_name": airline,
+                    "flight_number": f"{carrier_code}{int(flight_no[2:]) + 1}",
+                    "origin": hub,
+                    "destination": destination,
+                    "departure_time": seg2_dep.isoformat(),
+                    "arrival_time": seg2_arr.isoformat(),
+                    "departure_terminal": "2",
+                    "arrival_terminal": "1",
+                    "duration_minutes": seg2_dur,
+                    "aircraft": aircraft,
+                    "cabin_class": cabin_class,
+                })
+
+            ret_flight_no = ""
+            ret_arr_dt = None
+            if is_round_trip and ret_dep_dt:
+                ret_flight_no = f"{carrier_code}{int(flight_no[2:]) + 10}"
+                ret_arr_dt = ret_dep_dt + datetime.timedelta(minutes=duration)
+                segments.append({
+                    "leg": "inbound",
+                    "carrier_code": carrier_code,
+                    "airline_name": airline,
+                    "flight_number": ret_flight_no,
+                    "origin": destination,
+                    "destination": origin,
+                    "departure_time": ret_dep_dt.isoformat(),
+                    "arrival_time": ret_arr_dt.isoformat(),
+                    "departure_terminal": "1",
+                    "arrival_terminal": "4",
+                    "duration_minutes": duration,
+                    "aircraft": aircraft,
+                    "cabin_class": cabin_class,
+                })
 
             results.append({
                 "provider": "mock",
@@ -154,10 +257,17 @@ class MockTravelProvider(BaseTravelProvider):
                 "duration_minutes": duration,
                 "stops": stops,
                 "cabin_class": cabin_class,
+                "is_round_trip": is_round_trip,
+                "return_flight_number": ret_flight_no,
+                "return_departure_time": ret_dep_dt.isoformat() if ret_dep_dt else None,
+                "return_arrival_time": ret_arr_dt.isoformat() if ret_arr_dt else None,
+                "segments": segments,
+                "base_amount": base_amt,
+                "tax_amount": tax_amt,
                 "total_amount": total,
                 "currency": "USD",
                 "cabin_bags": 1,
-                "checked_bags": 1 if cabin_class == "economy" else 2,
+                "checked_bags": 1 if cabin_class.lower() == "economy" else 2,
                 "is_refundable": True if i == 0 else False,
                 "expires_in_minutes": 20,
                 "booking_url": f"https://example.com/mock-book/flight/{offer_id}",

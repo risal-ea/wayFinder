@@ -17,7 +17,8 @@ class BookingStateMachine:
 
     ALLOWED_TRANSITIONS = {
         "DRAFT": ["QUOTE_VALIDATED", "FAILED"],
-        "QUOTE_VALIDATED": ["AWAITING_APPROVAL", "FAILED"],
+        "QUOTE_VALIDATED": ["PASSENGERS_ATTACHED", "AWAITING_APPROVAL", "FAILED"],
+        "PASSENGERS_ATTACHED": ["AWAITING_APPROVAL", "FAILED"],
         "AWAITING_APPROVAL": ["SUBMITTED", "FAILED"],
         "SUBMITTED": ["CONFIRMED", "FAILED"],
         "CONFIRMED": [],
@@ -53,6 +54,39 @@ class BookingStateMachine:
         self._transition("QUOTE_VALIDATED")
         return True
 
+    def attach_travelers(self, travelers_data: list) -> list:
+        """
+        Attaches passenger details to the booking and transitions to PASSENGERS_ATTACHED.
+        """
+        if not travelers_data:
+            raise ValueError("At least one passenger is required to attach travelers.")
+
+        from .models import FlightTraveler
+        # Clear any existing draft travelers
+        self.booking.travelers.all().delete()
+
+        created_travelers = []
+        for t in travelers_data:
+            traveler = FlightTraveler.objects.create(
+                booking=self.booking,
+                traveler_type=t.get("traveler_type", "ADULT"),
+                first_name=t.get("first_name", "").strip().upper(),
+                last_name=t.get("last_name", "").strip().upper(),
+                date_of_birth=t.get("date_of_birth") or None,
+                gender=t.get("gender", "MALE"),
+                email=t.get("email", ""),
+                phone_number=t.get("phone_number", ""),
+                passport_number=t.get("passport_number", "").strip().upper(),
+                passport_issuing_country=t.get("passport_issuing_country", "").strip().upper(),
+                passport_expiry_date=t.get("passport_expiry_date") or None,
+                nationality=t.get("nationality", "").strip().upper(),
+                seat_preference=t.get("seat_preference", "ANY"),
+            )
+            created_travelers.append(traveler)
+
+        self._transition("PASSENGERS_ATTACHED")
+        return created_travelers
+
     def request_approval(self) -> str:
         """
         Transitions to AWAITING_APPROVAL and returns the approval token needed for user sign-off.
@@ -73,12 +107,25 @@ class BookingStateMachine:
         self._transition("SUBMITTED")
         return True
 
-    def confirm(self, provider_reference: str):
+    def confirm(self, provider_reference: str = ""):
         """
         Confirms booking upon receiving valid PNR or provider reference.
+        Issues official e-ticket numbers for all passengers.
         """
+        import random
+        if not provider_reference:
+            # Generate 6-char airline PNR (e.g. WAYF8Z)
+            provider_reference = f"WAYF{random.choice('ABCDEFGHJKLMNPQRSTUVWXYZ')}{random.randint(10, 99)}"
+
         self.booking.provider_reference = provider_reference
         self.booking.save(update_fields=["provider_reference"])
+
+        # Generate ticket numbers for travelers
+        for i, traveler in enumerate(self.booking.travelers.all(), 1):
+            if not traveler.eticket_number:
+                traveler.eticket_number = f"176-{random.randint(1000000000, 9999999999)}"
+                traveler.save(update_fields=["eticket_number"])
+
         self._transition("CONFIRMED")
 
     def fail(self, reason: str):
