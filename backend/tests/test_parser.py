@@ -8,7 +8,8 @@ from collections import Counter
 
 import pytest
 
-from wayfinder.providers.wikivoyage.parser import parse_article
+from wayfinder.providers.wikivoyage.parser import parse_article, split_sections
+from wayfinder.providers.wikivoyage.text import to_text
 
 from .conftest import load_page
 
@@ -80,6 +81,36 @@ def test_kyoto_section_tree(parsed):
     for section in parsed["Kyoto"].sections:
         assert section.title == section.path[-1]
         assert section.level == len(section.path) + 1  # "==" is level 2
+
+
+@pytest.mark.parametrize("page", ALL_PAGES)
+def test_no_section_with_text_is_lost(parsed, page):
+    """Every heading MediaWiki reports must come out as a section, unless it holds
+    only listings/region lists (captured elsewhere) or is boilerplate."""
+    raw = load_page(page)
+    got = {tuple(s.path) for s in parsed[page].sections}
+    got_titles = {path[-1] for path in got}
+    for toc in raw.sections:
+        if toc.title.lower() in {"see also", "references", "external links"}:
+            continue
+        if toc.title not in got_titles:
+            chunk = next(c for c in split_sections(raw) if c.title == toc.title)
+            assert not to_text(chunk.body), f"section {toc.title!r} has text but was dropped"
+
+
+def test_japan_sections_after_malformed_formatting(parsed):
+    # `'''''futon'' bedding'''` in "Sleep" used to swallow every heading after it
+    top = {s.path[0] for s in parsed["Japan"].sections}
+    assert {"Stay safe", "Stay healthy", "Learn", "Work", "Cope", "Respect", "Connect"} <= top
+    stay_safe = next(s for s in parsed["Japan"].sections if s.path == ["Stay safe"])
+    assert "police" in stay_safe.text.lower()
+
+
+def test_split_falls_back_to_heading_lines():
+    page = load_page("Kyoto_Higashiyama").model_copy(update={"sections": []})
+    titles = [c.title for c in split_sections(page)]
+    assert titles[0] == "" and "Get in" in titles and "By train" in titles
+    assert len(parse_article(page).listings) == 59
 
 
 def test_skipped_and_empty_sections(parsed):

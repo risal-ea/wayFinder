@@ -10,6 +10,9 @@ Pure function over a fetched page: no network, easy to test against fixtures.
 
 from __future__ import annotations
 
+import re
+from typing import NamedTuple
+
 from pydantic import BaseModel
 
 from wayfinder.domain.models import Article, Attribution, Listing, ListingType, Section
@@ -26,7 +29,7 @@ from wayfinder.providers.wikivoyage.templates import (
 )
 from wayfinder.providers.wikivoyage.text import parse, to_text
 
-PARSER_VERSION = 1  # bump when output changes, so cached parses are invalidated (M3)
+PARSER_VERSION = 2  # bump when output changes, so cached parses are invalidated (M3)
 
 # Boilerplate sections that hold only links to other articles.
 SKIPPED_SECTIONS = frozenset({"see also", "references", "external links"})
@@ -50,6 +53,36 @@ class ParsedArticle(BaseModel):
     listings: list[Listing]
 
 
+class _Chunk(NamedTuple):
+    level: int        # 0 for the lead
+    title: str        # "" for the lead
+    body: str         # wikitext after the heading line
+
+
+_HEADING_LINE = re.compile(r"^(={2,6})[ \t]*(.+?)[ \t]*\1[ \t]*$", re.MULTILINE)
+
+
+def split_sections(page: PageContent) -> list[_Chunk]:
+    """Cut the wikitext at its headings: lead first, then one chunk per heading.
+
+    Uses the heading positions MediaWiki reported (tocdata), so malformed markup
+    in one section (e.g. Japan's `'''''futon'' bedding'''`) cannot hide the
+    headings after it. Falls back to matching heading lines if tocdata is absent.
+    """
+    text = page.wikitext
+    marks = [(s.char_offset, s.level, s.title) for s in page.sections if s.char_offset is not None]
+    if not marks:
+        marks = [(m.start(), len(m.group(1)), to_text(m.group(2))) for m in _HEADING_LINE.finditer(text)]
+    marks.sort()
+
+    chunks = [_Chunk(0, "", text[: marks[0][0]] if marks else text)]
+    for i, (start, level, title) in enumerate(marks):
+        end = marks[i + 1][0] if i + 1 < len(marks) else len(text)
+        heading_end = text.find("\n", start, end)
+        chunks.append(_Chunk(level, title, text[heading_end + 1 : end] if heading_end >= 0 else ""))
+    return chunks
+
+
 def parse_article(page: PageContent, *, lang: str = "en") -> ParsedArticle:
     source = Attribution(title=page.title, url=article_url(page.title, lang), revision_id=page.revid)
     code = parse(page.wikitext)
@@ -60,20 +93,16 @@ def parse_article(page: PageContent, *, lang: str = "en") -> ParsedArticle:
     listings: list[Listing] = []
     open_headings: list[tuple[int, str]] = []  # (level, title) of the headings we are inside
 
-    for chunk in code.get_sections(flat=True, include_lead=True):
-        headings = chunk.filter_headings(recursive=False)
-        is_lead = not headings or chunk.index(headings[0]) != 0
+    for chunk in split_sections(page):
+        is_lead = chunk.level == 0
         if is_lead:
             path: list[str] = []
-            body = chunk
         else:
-            heading = headings[0]
-            title = to_text(heading.title)
-            while open_headings and open_headings[-1][0] >= heading.level:
+            while open_headings and open_headings[-1][0] >= chunk.level:
                 open_headings.pop()
-            open_headings.append((heading.level, title))
+            open_headings.append((chunk.level, chunk.title))
             path = [t for _, t in open_headings]
-            body = parse(str(chunk)[len(str(heading)):])
+        body = parse(chunk.body)
 
         default_type = SECTION_LISTING_TYPES.get(path[0].lower(), "other") if path else "other"
         for template in find_listings(body):
@@ -87,7 +116,7 @@ def parse_article(page: PageContent, *, lang: str = "en") -> ParsedArticle:
         if is_lead:
             summary = text
         elif text and path[0].lower() not in SKIPPED_SECTIONS:
-            sections.append(Section(title=path[-1], path=path, level=heading.level, text=text, source=source))
+            sections.append(Section(title=chunk.title, path=path, level=chunk.level, text=text, source=source))
 
     lat_lon = parse_geo(code)
     kind, status = parse_status(code)
