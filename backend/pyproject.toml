@@ -4,9 +4,12 @@ version = "0.1.0"
 description = "WayFinder backend: destination data providers and agent tools"
 requires-python = ">=3.12"
 dependencies = [
+    "fastapi>=0.115",
     "httpx>=0.28",
+    "mwparserfromhell>=0.6.6",
     "pydantic>=2.9",
     "pydantic-settings>=2.6",
+    "uvicorn>=0.32",
 ]
 
 [dependency-groups]
@@ -29,3 +32,4 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 markers = ["live: hits the real Wikivoyage API (run with -m live)"]
 addopts = "-m 'not live'"
+filterwarnings = ["ignore:Using `httpx` with `starlette.testclient` is deprecated"]

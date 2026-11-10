@@ -55,6 +55,11 @@ class PageNotFound(WikivoyageApiError):
         self.title = title
 
 
+def article_url(title: str, lang: str = "en") -> str:
+    """Public URL of an article, used for attribution."""
+    return f"https://{lang}.wikivoyage.org/wiki/{quote(title.replace(' ', '_'), safe='/:()')}"
+
+
 def is_maxlag(payload: Any) -> bool:
     return isinstance(payload, dict) and payload.get("error", {}).get("code") == "maxlag"
 
@@ -108,7 +113,7 @@ class WikivoyageClient:
         await self.aclose()
 
     def page_url(self, title: str) -> str:
-        return f"https://{self.lang}.wikivoyage.org/wiki/{quote(title.replace(' ', '_'), safe='/:()')}"
+        return article_url(title, self.lang)
 
     async def call(self, params: dict[str, str]) -> dict[str, Any]:
         """Run one API request and return the raw JSON. Raises on API errors."""

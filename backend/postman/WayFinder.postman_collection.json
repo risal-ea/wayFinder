@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "WayFinder: Wikivoyage API",
-    "description": "The Wikivoyage API calls behind the WayFinder backend.\n\nNo key needed. Every request sends `User-Agent: {{user_agent}}`; set it to include your contact (Wikimedia policy). Keep requests one at a time (200/min limit).\n\nChange `title`, `query`, `lat`, `lon` in the collection variables to try other places.",
+    "name": "WayFinder",
+    "description": "**WayFinder API (local)**: our backend: parsed articles, sections and listings. Start the server first (see the folder description).\n\n**Wikivoyage**: the raw API calls the backend makes. No key needed; set `user_agent` to include your contact.\n\nChange `title`, `district`, `query`, `lat`, `lon` in the collection variables to try other places.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "event": [
@@ -43,9 +43,371 @@
     {
       "key": "lon",
       "value": "135.7681"
+    },
+    {
+      "key": "api",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "district",
+      "value": "Kyoto/Higashiyama"
     }
   ],
   "item": [
+    {
+      "name": "WayFinder API (local, run the server first)",
+      "description": "Our own backend. Start it first:\n\n```\ncd backend\nuv run uvicorn wayfinder.api.app:app --reload\n```\n\nInteractive docs: http://localhost:8000/docs",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api}}/health",
+              "host": [
+                "{{api}}"
+              ],
+              "path": [
+                "health"
+              ],
+              "query": []
+            },
+            "description": "Is the server running?"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('ok', () => pm.expect(body.status).to.eql('ok'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api}}/search?q={{query}}&limit=10",
+              "host": [
+                "{{api}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "{{query}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Find articles by name."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Has results', () => pm.expect(body.length).to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resolve",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api}}/resolve?title=Peking",
+              "host": [
+                "{{api}}"
+              ],
+              "path": [
+                "resolve"
+              ],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "Peking"
+                }
+              ]
+            },
+            "description": "Canonical title. Try `Peking` (redirect → Beijing) or `Springfield` (`is_disambiguation: true`)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Resolved', () => pm.expect(body.exists).to.be.true);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api}}/summary?title={{title}}",
+              "host": [
+                "{{api}}"
+              ],
+              "path": [
+                "summary"
+              ],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "{{title}}"
+                }
+              ]
+            },
+            "description": "Plain-text intro."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Article (parsed)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api}}/article?title={{title}}",
+              "host": [
+                "{{api}}"
+              ],
+              "path": [
+                "article"
+              ],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "{{title}}"
+                }
+              ]
+            },
+            "description": "Parsed metadata: coordinates, parent region, kind/status, banner, summary, districts, attribution."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Has source', () => pm.expect(body.source.license).to.eql('CC BY-SA 4.0'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api}}/sections?title={{title}}&section=Get in&section=Get around",
+              "host": [
+                "{{api}}"
+              ],
+              "path": [
+                "sections"
+              ],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "{{title}}"
+                },
+                {
+                  "key": "section",
+                  "value": "Get in"
+                },
+                {
+                  "key": "section",
+                  "value": "Get around"
+                }
+              ]
+            },
+            "description": "Plain-text sections. `section` filters by top-level heading and can repeat; remove it to get all. `available` lists the headings the page has."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Has available headings', () => pm.expect(body.available.length).to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api}}/listings?title={{district}}&type=see&limit=20",
+              "host": [
+                "{{api}}"
+              ],
+              "path": [
+                "listings"
+              ],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "{{district}}"
+                },
+                {
+                  "key": "type",
+                  "value": "see"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Structured listings on one page. `type` can repeat: see, do, buy, eat, drink, sleep, go, other. District pages (e.g. `Kyoto/Higashiyama`) hold most listings; the city page only has a few."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Counts add up', () => pm.expect(body.returned).to.eql(body.listings.length));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Nearby",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api}}/nearby?lat={{lat}}&lon={{lon}}&radius=10000&limit=10",
+              "host": [
+                "{{api}}"
+              ],
+              "path": [
+                "nearby"
+              ],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "{{lat}}"
+                },
+                {
+                  "key": "lon",
+                  "value": "{{lon}}"
+                },
+                {
+                  "key": "radius",
+                  "value": "10000"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Articles near a point, closest first."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing page → 404",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api}}/article?title=Nonexistentplacexyz",
+              "host": [
+                "{{api}}"
+              ],
+              "path": [
+                "article"
+              ],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "Nonexistentplacexyz"
+                }
+              ]
+            },
+            "description": "Errors come back as `{error, message}` with a matching status code."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 404', () => pm.response.to.have.status(404));",
+                  "pm.test('error code', () => pm.expect(pm.response.json().error).to.eql('not_found'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
     {
       "name": "Wikivoyage (used by the backend)",
       "item": [

@@ -5,11 +5,18 @@ import httpx
 import pytest
 import respx
 
-from wayfinder.providers.wikivoyage.client import DEFAULT_PARAMS, WikivoyageClient
+from wayfinder.providers.wikivoyage.client import DEFAULT_PARAMS, WikivoyageClient, parse_page
+from wayfinder.providers.wikivoyage.models import PageContent
 
 FIXTURES = Path(__file__).parent / "fixtures" / "wikivoyage"
 WIKIVOYAGE_API = "https://en.wikivoyage.org/w/api.php"
 TEST_UA = "WayFinder/0.1 (https://github.com/risal-ea/wayFinder; tests) httpx"
+
+
+def load_page(name: str) -> PageContent:
+    """A recorded `get_page` result, e.g. load_page("Kyoto_Higashiyama")."""
+    payload = json.loads((FIXTURES / f"page__{name}.json").read_text(encoding="utf-8"))
+    return parse_page(payload)
 
 
 class SleepRecorder:
