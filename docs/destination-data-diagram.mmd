@@ -1,0 +1,93 @@
+%%{init: {"theme": "dark", "layout": "elk", "fontFamily": "Helvetica", "themeVariables": {"fontFamily": "Helvetica", "fontSize": "15px", "background": "#000000", "lineColor": "#9a9a9a", "clusterBkg": "#2b2b2b", "clusterBorder": "#2b2b2b", "titleColor": "#ffffff", "primaryTextColor": "#ffffff"}, "flowchart": {"curve": "step", "nodeSpacing": 40, "rankSpacing": 70, "padding": 18}}}%%
+flowchart TB
+    UI["User Interface<br/>Web · Mobile · Chat"]
+    API["FastAPI Backend"]
+
+    subgraph ORCH["AI ORCHESTRATION LAYER"]
+        COORD["Travel Coordinator Agent<br/>Gemini + Google ADK"]
+        DRA["Destination Research Agent"]
+        ITIN["Itinerary Agent"]
+    end
+
+    subgraph MCP["MCP TOOL LAYER · Destination MCP Server"]
+        T1["resolve_destination"]
+        T2["find_places"]
+        T3["get_place_details"]
+        T4["get_travel_guide"]
+        T5["get_nearby_guides"]
+    end
+
+    subgraph DOMAIN["DOMAIN SERVICE LAYER"]
+        SVC["DestinationService<br/>Merge · Dedupe · Rank"]
+        JOIN["Matcher<br/>Wikidata ID · Name + 150 m"]
+        CAT["Category Mapper<br/>kinds → see · do · eat · sleep"]
+        PARSE["Listing Parser<br/>mwparserfromhell · District Pages"]
+    end
+
+    subgraph PROV["UNIFIED PROVIDER INTEGRATION LAYER"]
+        HTTP["Shared HTTP Client<br/>Retry · Backoff · User-Agent"]
+        OTMA["OpenTripMap Adapter"]
+        WVA["Wikivoyage Adapter"]
+    end
+
+    subgraph DATA["DATA & STATE LAYER"]
+        CACHE[("Redis<br/>Response Cache · TTL")]
+        RL[("Redis<br/>Token Buckets · Rate Limits")]
+    end
+
+    subgraph GOV["OBSERVABILITY & GOVERNANCE"]
+        ATTR["Attribution<br/>ODbL · CC BY-SA 4.0"]
+        OBS["Observability<br/>Latency · Errors · Cache Hits"]
+        QUOTA["Quota Monitor<br/>429s · Retry-After"]
+    end
+
+    OTM["OpenTripMap API<br/>geoname · radius · bbox · xid"]
+    WV["Wikivoyage API<br/>search · geosearch<br/>extracts · parse"]
+    FB["Fallback<br/>Overpass (OSM) + Wikidata"]
+
+    OUT["Destination Result<br/>Destination · Places<br/>Guide Sections · Sources"]
+
+    UI --> API --> COORD
+    COORD --> DRA
+    COORD --> ITIN
+    DRA --> MCP
+    ITIN --> MCP
+    MCP --> SVC
+    SVC --> JOIN
+    SVC --> CAT
+    SVC --> PARSE
+    SVC --> OTMA
+    SVC --> WVA
+    SVC --> CACHE
+    OTMA --> HTTP
+    WVA --> HTTP
+    HTTP --> RL
+    HTTP --> OTM
+    HTTP --> WV
+    OTMA -.->|fallback| FB
+    SVC -.-> ATTR
+    HTTP -.-> OBS
+    HTTP -.-> QUOTA
+    COORD --> OUT
+
+    classDef edge fill:#0b0f17,stroke:#3d6fb6,stroke-width:1.5px,color:#fff
+    classDef agent fill:#0a1410,stroke:#2f9e6e,stroke-width:1.5px,color:#fff
+    classDef tool fill:#0d140b,stroke:#5c9a3c,stroke-width:1.5px,color:#fff
+    classDef domain fill:#0b1416,stroke:#2a9fb0,stroke-width:1.5px,color:#fff
+    classDef prov fill:#17120a,stroke:#c48a2c,stroke-width:1.5px,color:#fff
+    classDef ext fill:#1a1309,stroke:#d9a441,stroke-width:1.5px,color:#fff
+    classDef data fill:#0b0f17,stroke:#3d6fb6,stroke-width:1.5px,color:#fff
+    classDef gov fill:#120d1a,stroke:#8a5cd6,stroke-width:1.5px,color:#fff
+    classDef out fill:#0a1410,stroke:#2f9e6e,stroke-width:1.5px,color:#fff
+    classDef fallback fill:#141414,stroke:#777,stroke-width:1.5px,stroke-dasharray:5 4,color:#ccc
+
+    class UI,API edge
+    class COORD,DRA,ITIN agent
+    class T1,T2,T3,T4,T5 tool
+    class SVC,JOIN,CAT,PARSE domain
+    class HTTP,OTMA,WVA prov
+    class OTM,WV ext
+    class CACHE,RL data
+    class ATTR,OBS,QUOTA gov
+    class OUT out
+    class FB fallback

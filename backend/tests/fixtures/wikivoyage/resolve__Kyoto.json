@@ -1,0 +1,22 @@
+{
+ "batchcomplete": true,
+ "query": {
+  "pages": [
+   {
+    "pageid": 18579,
+    "ns": 0,
+    "title": "Kyoto",
+    "contentmodel": "wikitext",
+    "pagelanguage": "en",
+    "pagelanguagehtmlcode": "en",
+    "pagelanguagedir": "ltr",
+    "touched": "2026-10-29T04:28:12Z",
+    "lastrevid": 5407786,
+    "length": 63098,
+    "pageprops": {
+     "wikibase_item": "Q34600"
+    }
+   }
+  ]
+ }
+}

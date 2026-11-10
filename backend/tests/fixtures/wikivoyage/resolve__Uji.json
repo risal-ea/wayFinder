@@ -1,0 +1,22 @@
+{
+ "batchcomplete": true,
+ "query": {
+  "pages": [
+   {
+    "pageid": 37134,
+    "ns": 0,
+    "title": "Uji",
+    "contentmodel": "wikitext",
+    "pagelanguage": "en",
+    "pagelanguagehtmlcode": "en",
+    "pagelanguagedir": "ltr",
+    "touched": "2026-11-06T01:04:39Z",
+    "lastrevid": 5420812,
+    "length": 19474,
+    "pageprops": {
+     "wikibase_item": "Q326956"
+    }
+   }
+  ]
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "batchcomplete": true,
+ "query": {
+  "pages": [
+   {
+    "pageid": 33890,
+    "ns": 0,
+    "title": "Springfield",
+    "contentmodel": "wikitext",
+    "pagelanguage": "en",
+    "pagelanguagehtmlcode": "en",
+    "pagelanguagedir": "ltr",
+    "touched": "2026-09-28T17:15:35Z",
+    "lastrevid": 4177513,
+    "length": 2195,
+    "pageprops": {
+     "disambiguation": "",
+     "wikibase_item": "Q191058"
+    }
+   }
+  ]
+ }
+}

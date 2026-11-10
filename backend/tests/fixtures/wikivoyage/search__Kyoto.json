@@ -1,0 +1,44 @@
+{
+ "batchcomplete": true,
+ "continue": {
+  "sroffset": 5,
+  "continue": "-||"
+ },
+ "query": {
+  "searchinfo": {
+   "totalhits": 296
+  },
+  "search": [
+   {
+    "ns": 0,
+    "title": "Kyoto",
+    "pageid": 18579,
+    "snippet": "<span class=\"searchmatch\">Kyoto</span> is a huge city with several district articles that contain information about specific sights, restaurants, and accommodation. <span class=\"searchmatch\">Kyōto</span> (京都) was the"
+   },
+   {
+    "ns": 0,
+    "title": "Kyoto (prefecture)",
+    "pageid": 18580,
+    "snippet": "<span class=\"searchmatch\">Kyoto</span> Prefecture (京都府 <span class=\"searchmatch\">Kyōto</span>-fu) is in the Kansai region of Japan. It contains both a coastal region to the north, and broad, more densely populated basins"
+   },
+   {
+    "ns": 0,
+    "title": "Kyoto/Central",
+    "pageid": 18582,
+    "snippet": "ultra-modern showpiece structure of <span class=\"searchmatch\">Kyoto</span> Station in the south, Central <span class=\"searchmatch\">Kyoto</span> has a bit of everything that makes <span class=\"searchmatch\">Kyoto</span> what it is today: a marbled mix of"
+   },
+   {
+    "ns": 0,
+    "title": "Kyoto/Higashiyama",
+    "pageid": 18584,
+    "snippet": "Some of the most picturesque parts of <span class=\"searchmatch\">Kyoto</span> are located in Higashiyama (東山, lit. eastern mountains), the eastern region of the city, across the Kamo River"
+   },
+   {
+    "ns": 0,
+    "title": "Kyoto/North",
+    "pageid": 18585,
+    "snippet": "Northern <span class=\"searchmatch\">Kyoto</span> (北山) is graced with scores of centuries-old shrines and temples, including several World Heritage Sites. One of <span class=\"searchmatch\">Kyoto&#039;s</span> most famous attractions"
+   }
+  ]
+ }
+}

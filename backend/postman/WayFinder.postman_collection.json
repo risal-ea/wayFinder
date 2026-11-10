@@ -1,0 +1,680 @@
+{
+  "info": {
+    "name": "WayFinder: Wikivoyage API",
+    "description": "The Wikivoyage API calls behind the WayFinder backend.\n\nNo key needed. Every request sends `User-Agent: {{user_agent}}`; set it to include your contact (Wikimedia policy). Keep requests one at a time (200/min limit).\n\nChange `title`, `query`, `lat`, `lon` in the collection variables to try other places.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('HTTP 200', () => pm.response.to.have.status(200));"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "wv_api",
+      "value": "https://en.wikivoyage.org/w/api.php"
+    },
+    {
+      "key": "user_agent",
+      "value": "WayFinder/0.1 (https://github.com/risal-ea/wayFinder; you@example.com) Postman"
+    },
+    {
+      "key": "title",
+      "value": "Kyoto"
+    },
+    {
+      "key": "query",
+      "value": "Kyoto"
+    },
+    {
+      "key": "section",
+      "value": "1"
+    },
+    {
+      "key": "lat",
+      "value": "35.0116"
+    },
+    {
+      "key": "lon",
+      "value": "135.7681"
+    }
+  ],
+  "item": [
+    {
+      "name": "Wikivoyage (used by the backend)",
+      "item": [
+        {
+          "name": "Search destinations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=query&list=search&srsearch={{query}}&srnamespace=0&srlimit=10&srprop=snippet&format=json&formatversion=2&maxlag=5",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "query"
+                },
+                {
+                  "key": "list",
+                  "value": "search"
+                },
+                {
+                  "key": "srsearch",
+                  "value": "{{query}}"
+                },
+                {
+                  "key": "srnamespace",
+                  "value": "0"
+                },
+                {
+                  "key": "srlimit",
+                  "value": "10"
+                },
+                {
+                  "key": "srprop",
+                  "value": "snippet"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                },
+                {
+                  "key": "maxlag",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Full-text search for articles. Python: `WikivoyageClient.search(query)`.\n\nResult: `query.search[]` with `title`, `pageid`, `snippet` (HTML; the client strips it)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('No MediaWiki error', () => pm.expect(body.error, JSON.stringify(body.error)).to.be.undefined);",
+                  "pm.test('Has results', () => pm.expect(body.query.search.length).to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resolve title",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=query&titles={{title}}&redirects=1&prop=info|pageprops&ppprop=disambiguation|wikibase_item&format=json&formatversion=2&maxlag=5",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "query"
+                },
+                {
+                  "key": "titles",
+                  "value": "{{title}}"
+                },
+                {
+                  "key": "redirects",
+                  "value": "1"
+                },
+                {
+                  "key": "prop",
+                  "value": "info|pageprops"
+                },
+                {
+                  "key": "ppprop",
+                  "value": "disambiguation|wikibase_item"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                },
+                {
+                  "key": "maxlag",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Canonical title, redirects, disambiguation flag, Wikidata ID. Python: `WikivoyageClient.resolve(title)`.\n\n- `query.redirects[]` present if the title was a redirect\n- `pages[0].missing: true` if no such article\n- `pages[0].pageprops.disambiguation` present for disambiguation pages\n- `pages[0].pageprops.wikibase_item` is the Wikidata ID"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('No MediaWiki error', () => pm.expect(body.error, JSON.stringify(body.error)).to.be.undefined);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get page (wikitext + sections + revision)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=parse&page={{title}}&prop=wikitext|tocdata|revid&redirects=1&format=json&formatversion=2&maxlag=5",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "parse"
+                },
+                {
+                  "key": "page",
+                  "value": "{{title}}"
+                },
+                {
+                  "key": "prop",
+                  "value": "wikitext|tocdata|revid"
+                },
+                {
+                  "key": "redirects",
+                  "value": "1"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                },
+                {
+                  "key": "maxlag",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "The whole article in one request. Python: `WikivoyageClient.get_page(title)`.\n\n- `parse.wikitext`: raw article source with `{{see|...}}` listing templates\n- `parse.tocdata.sections[]`: headings with `hLevel` and `codepointOffset` (position of the heading in the wikitext)\n- `parse.revid`: exact revision, used for attribution and cache keys\n\nTry `{{title}}` = `Kyoto/Higashiyama` to see a district page full of listings."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('No MediaWiki error', () => pm.expect(body.error, JSON.stringify(body.error)).to.be.undefined);",
+                  "pm.test('Has wikitext and revid', () => { pm.expect(body.parse.wikitext).to.be.a('string'); pm.expect(body.parse.revid).to.be.above(0); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get one section's wikitext",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=parse&page={{title}}&prop=wikitext&section={{section}}&redirects=1&format=json&formatversion=2&maxlag=5",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "parse"
+                },
+                {
+                  "key": "page",
+                  "value": "{{title}}"
+                },
+                {
+                  "key": "prop",
+                  "value": "wikitext"
+                },
+                {
+                  "key": "section",
+                  "value": "{{section}}"
+                },
+                {
+                  "key": "redirects",
+                  "value": "1"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                },
+                {
+                  "key": "maxlag",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Wikitext of a single section by its `index` (from `tocdata.sections[].index` in the previous request). Not used by the Python client, which fetches the whole page once and splits it locally, but handy for exploring."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('No MediaWiki error', () => pm.expect(body.error, JSON.stringify(body.error)).to.be.undefined);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get summary (plain-text intro)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=query&titles={{title}}&redirects=1&prop=extracts&exintro=1&explaintext=1&format=json&formatversion=2&maxlag=5",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "query"
+                },
+                {
+                  "key": "titles",
+                  "value": "{{title}}"
+                },
+                {
+                  "key": "redirects",
+                  "value": "1"
+                },
+                {
+                  "key": "prop",
+                  "value": "extracts"
+                },
+                {
+                  "key": "exintro",
+                  "value": "1"
+                },
+                {
+                  "key": "explaintext",
+                  "value": "1"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                },
+                {
+                  "key": "maxlag",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Plain-text introduction. Python: `WikivoyageClient.get_summary(title)`.\n\nResult: `query.pages[0].extract`."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('No MediaWiki error', () => pm.expect(body.error, JSON.stringify(body.error)).to.be.undefined);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Nearby guides",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=query&list=geosearch&gscoord={{lat}}|{{lon}}&gsradius=10000&gslimit=10&gsnamespace=0&format=json&formatversion=2&maxlag=5",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "query"
+                },
+                {
+                  "key": "list",
+                  "value": "geosearch"
+                },
+                {
+                  "key": "gscoord",
+                  "value": "{{lat}}|{{lon}}"
+                },
+                {
+                  "key": "gsradius",
+                  "value": "10000"
+                },
+                {
+                  "key": "gslimit",
+                  "value": "10"
+                },
+                {
+                  "key": "gsnamespace",
+                  "value": "0"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                },
+                {
+                  "key": "maxlag",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Articles near a point, radius in metres (max 10000). Python: `WikivoyageClient.nearby(lat, lon)`.\n\nResult: `query.geosearch[]` with `title`, `lat`, `lon`, `dist`. Around central Kyoto this returns the 5 Kyoto district pages."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('No MediaWiki error', () => pm.expect(body.error, JSON.stringify(body.error)).to.be.undefined);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Wikivoyage edge cases",
+      "item": [
+        {
+          "name": "Redirect: Peking → Beijing",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=query&titles=Peking&redirects=1&prop=info|pageprops&format=json&formatversion=2",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "query"
+                },
+                {
+                  "key": "titles",
+                  "value": "Peking"
+                },
+                {
+                  "key": "redirects",
+                  "value": "1"
+                },
+                {
+                  "key": "prop",
+                  "value": "info|pageprops"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                }
+              ]
+            },
+            "description": "`query.redirects[0]` shows `from: Peking, to: Beijing`. The client reports this as `redirected_from`."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('Redirects to Beijing', () => pm.expect(body.query.redirects[0].to).to.eql('Beijing'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Disambiguation: Springfield",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=query&titles=Springfield&redirects=1&prop=pageprops&format=json&formatversion=2",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "query"
+                },
+                {
+                  "key": "titles",
+                  "value": "Springfield"
+                },
+                {
+                  "key": "redirects",
+                  "value": "1"
+                },
+                {
+                  "key": "prop",
+                  "value": "pageprops"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                }
+              ]
+            },
+            "description": "Ambiguous names have a `disambiguation` page property. The client sets `is_disambiguation = true`."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('Flagged as disambiguation', () => pm.expect(body.query.pages[0].pageprops).to.have.property('disambiguation'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing page (error with HTTP 200)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=parse&page=Nonexistentplacexyz&prop=revid&format=json&formatversion=2",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "parse"
+                },
+                {
+                  "key": "page",
+                  "value": "Nonexistentplacexyz"
+                },
+                {
+                  "key": "prop",
+                  "value": "revid"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                }
+              ]
+            },
+            "description": "MediaWiki reports errors as **HTTP 200** with an `error` object. The client turns `missingtitle` into `PageNotFound`."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('HTTP 200 but error.code = missingtitle', () => { pm.response.to.have.status(200); pm.expect(body.error.code).to.eql('missingtitle'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Forced maxlag (see Retry-After)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "{{user_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{wv_api}}?action=query&meta=siteinfo&format=json&formatversion=2&maxlag=-1",
+              "host": [
+                "{{wv_api}}"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "query"
+                },
+                {
+                  "key": "meta",
+                  "value": "siteinfo"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "key": "formatversion",
+                  "value": "2"
+                },
+                {
+                  "key": "maxlag",
+                  "value": "-1"
+                }
+              ]
+            },
+            "description": "`maxlag=-1` always triggers the server-lag error, so you can see what the client retries on: `error.code = maxlag` plus a `Retry-After` header (check the Headers tab)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('maxlag error with Retry-After', () => { pm.expect(body.error.code).to.eql('maxlag'); pm.response.to.have.header('Retry-After'); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

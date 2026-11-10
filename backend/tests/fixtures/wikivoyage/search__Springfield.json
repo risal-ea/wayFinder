@@ -1,0 +1,44 @@
+{
+ "batchcomplete": true,
+ "continue": {
+  "sroffset": 5,
+  "continue": "-||"
+ },
+ "query": {
+  "searchinfo": {
+   "totalhits": 343
+  },
+  "search": [
+   {
+    "ns": 0,
+    "title": "Springfield",
+    "pageid": 33890,
+    "snippet": "called <span class=\"searchmatch\">Springfield</span>: <span class=\"searchmatch\">Springfield</span> (Queensland) - a suburb of Ipswich in Queensland. <span class=\"searchmatch\">Springfield</span> (Belize) - a Mennonite village in Belize. <span class=\"searchmatch\">Springfield</span> (New"
+   },
+   {
+    "ns": 0,
+    "title": "Springfield (Massachusetts)",
+    "pageid": 33892,
+    "snippet": "<span class=\"searchmatch\">Springfield</span> is the largest city on the Connecticut River, in the Pioneer Valley of Massachusetts, USA. It sits 24 miles (40 km) north of Hartford, Connecticut"
+   },
+   {
+    "ns": 0,
+    "title": "Springfield (Illinois)",
+    "pageid": 33891,
+    "snippet": "<span class=\"searchmatch\">Springfield</span> is a city in the center of the state of Illinois. It is the state&#039;s capital — not Chicago — and the county seat of Sangamon County. Springfield"
+   },
+   {
+    "ns": 0,
+    "title": "Springfield (Missouri)",
+    "pageid": 33893,
+    "snippet": "<span class=\"searchmatch\">Springfield</span> is the third largest city in the state of Missouri, with a population of more than 168,000, and more than 462,000 (2019) in the metro area"
+   },
+   {
+    "ns": 0,
+    "title": "Springfield (Virginia)",
+    "pageid": 33896,
+    "snippet": "<span class=\"searchmatch\">Springfield</span> is in Virginia, within the United States of America. <span class=\"searchmatch\">Springfield</span> is served by a metro station (Franconia-<span class=\"searchmatch\">Springfield</span>), a Greyhound stop, nearby"
+   }
+  ]
+ }
+}

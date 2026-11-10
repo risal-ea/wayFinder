@@ -1,0 +1,28 @@
+{
+ "batchcomplete": true,
+ "query": {
+  "redirects": [
+   {
+    "from": "Peking",
+    "to": "Beijing"
+   }
+  ],
+  "pages": [
+   {
+    "pageid": 3187,
+    "ns": 0,
+    "title": "Beijing",
+    "contentmodel": "wikitext",
+    "pagelanguage": "en",
+    "pagelanguagehtmlcode": "en",
+    "pagelanguagedir": "ltr",
+    "touched": "2026-11-06T08:25:27Z",
+    "lastrevid": 5410584,
+    "length": 137548,
+    "pageprops": {
+     "wikibase_item": "Q956"
+    }
+   }
+  ]
+ }
+}

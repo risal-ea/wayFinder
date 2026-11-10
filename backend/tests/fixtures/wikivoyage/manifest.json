@@ -1,0 +1,206 @@
+[
+ {
+  "file": "search__Kyoto.json",
+  "params": {
+   "action": "query",
+   "list": "search",
+   "srsearch": "Kyoto",
+   "srnamespace": "0",
+   "srlimit": "5",
+   "srprop": "snippet"
+  }
+ },
+ {
+  "file": "resolve__Kyoto.json",
+  "params": {
+   "action": "query",
+   "titles": "Kyoto",
+   "redirects": "1",
+   "prop": "info|pageprops",
+   "ppprop": "disambiguation|wikibase_item"
+  }
+ },
+ {
+  "file": "summary__Kyoto.json",
+  "params": {
+   "action": "query",
+   "titles": "Kyoto",
+   "redirects": "1",
+   "prop": "extracts",
+   "exintro": "1",
+   "explaintext": "1"
+  }
+ },
+ {
+  "file": "page__Kyoto.json",
+  "params": {
+   "action": "parse",
+   "page": "Kyoto",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "page__Kyoto_Arashiyama.json",
+  "params": {
+   "action": "parse",
+   "page": "Kyoto/Arashiyama",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "page__Kyoto_Central.json",
+  "params": {
+   "action": "parse",
+   "page": "Kyoto/Central",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "page__Kyoto_Higashiyama.json",
+  "params": {
+   "action": "parse",
+   "page": "Kyoto/Higashiyama",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "page__Kyoto_North.json",
+  "params": {
+   "action": "parse",
+   "page": "Kyoto/North",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "page__Kyoto_South.json",
+  "params": {
+   "action": "parse",
+   "page": "Kyoto/South",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "nearby__35_0116_135_7681.json",
+  "params": {
+   "action": "query",
+   "list": "geosearch",
+   "gscoord": "35.0116|135.7681",
+   "gsradius": "10000",
+   "gslimit": "10",
+   "gsnamespace": "0"
+  }
+ },
+ {
+  "file": "resolve__Uji.json",
+  "params": {
+   "action": "query",
+   "titles": "Uji",
+   "redirects": "1",
+   "prop": "info|pageprops",
+   "ppprop": "disambiguation|wikibase_item"
+  }
+ },
+ {
+  "file": "page__Uji.json",
+  "params": {
+   "action": "parse",
+   "page": "Uji",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "resolve__Peking.json",
+  "params": {
+   "action": "query",
+   "titles": "Peking",
+   "redirects": "1",
+   "prop": "info|pageprops",
+   "ppprop": "disambiguation|wikibase_item"
+  }
+ },
+ {
+  "file": "page__Peking.json",
+  "params": {
+   "action": "parse",
+   "page": "Peking",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "search__Springfield.json",
+  "params": {
+   "action": "query",
+   "list": "search",
+   "srsearch": "Springfield",
+   "srnamespace": "0",
+   "srlimit": "5",
+   "srprop": "snippet"
+  }
+ },
+ {
+  "file": "resolve__Springfield.json",
+  "params": {
+   "action": "query",
+   "titles": "Springfield",
+   "redirects": "1",
+   "prop": "info|pageprops",
+   "ppprop": "disambiguation|wikibase_item"
+  }
+ },
+ {
+  "file": "page__Kansai.json",
+  "params": {
+   "action": "parse",
+   "page": "Kansai",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "page__Japan.json",
+  "params": {
+   "action": "parse",
+   "page": "Japan",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ },
+ {
+  "file": "resolve__Nonexistentplacexyz.json",
+  "params": {
+   "action": "query",
+   "titles": "Nonexistentplacexyz",
+   "redirects": "1",
+   "prop": "info|pageprops",
+   "ppprop": "disambiguation|wikibase_item"
+  }
+ },
+ {
+  "file": "summary__Nonexistentplacexyz.json",
+  "params": {
+   "action": "query",
+   "titles": "Nonexistentplacexyz",
+   "redirects": "1",
+   "prop": "extracts",
+   "exintro": "1",
+   "explaintext": "1"
+  }
+ },
+ {
+  "file": "page__Nonexistentplacexyz.json",
+  "params": {
+   "action": "parse",
+   "page": "Nonexistentplacexyz",
+   "prop": "wikitext|tocdata|revid",
+   "redirects": "1"
+  }
+ }
+]

@@ -1,0 +1,285 @@
+{
+ "parse": {
+  "title": "Kansai",
+  "pageid": 16871,
+  "revid": 5379284,
+  "redirects": [],
+  "tocdata": {
+   "sections": [
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Prefectures",
+     "number": "1",
+     "index": "1",
+     "fromTitle": "Kansai",
+     "codepointOffset": 478,
+     "anchor": "Prefectures"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Cities",
+     "number": "2",
+     "index": "2",
+     "fromTitle": "Kansai",
+     "codepointOffset": 2590,
+     "anchor": "Cities"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Other destinations",
+     "number": "3",
+     "index": "3",
+     "fromTitle": "Kansai",
+     "codepointOffset": 3848,
+     "anchor": "Other_destinations"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Understand",
+     "number": "4",
+     "index": "4",
+     "fromTitle": "Kansai",
+     "codepointOffset": 4835,
+     "anchor": "Understand"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 3,
+     "line": "Tourist information site",
+     "number": "4.1",
+     "index": "5",
+     "fromTitle": "Kansai",
+     "codepointOffset": 5389,
+     "anchor": "Tourist_information_site"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Talk",
+     "number": "5",
+     "index": "6",
+     "fromTitle": "Kansai",
+     "codepointOffset": 5534,
+     "anchor": "Talk"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Get in",
+     "number": "6",
+     "index": "7",
+     "fromTitle": "Kansai",
+     "codepointOffset": 7295,
+     "anchor": "Get_in"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 3,
+     "line": "By plane",
+     "number": "6.1",
+     "index": "8",
+     "fromTitle": "Kansai",
+     "codepointOffset": 7483,
+     "anchor": "By_plane"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 3,
+     "line": "By train",
+     "number": "6.2",
+     "index": "9",
+     "fromTitle": "Kansai",
+     "codepointOffset": 8012,
+     "anchor": "By_train"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Get around",
+     "number": "7",
+     "index": "10",
+     "fromTitle": "Kansai",
+     "codepointOffset": 8206,
+     "anchor": "Get_around"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 4,
+     "line": "Kyoto to Osaka",
+     "number": "7.1",
+     "index": "11",
+     "fromTitle": "Kansai",
+     "codepointOffset": 9101,
+     "anchor": "Kyoto_to_Osaka"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 4,
+     "line": "Osaka to Kobe",
+     "number": "7.2",
+     "index": "12",
+     "fromTitle": "Kansai",
+     "codepointOffset": 11796,
+     "anchor": "Osaka_to_Kobe"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 4,
+     "line": "Kyoto to Kobe",
+     "number": "7.3",
+     "index": "13",
+     "fromTitle": "Kansai",
+     "codepointOffset": 12821,
+     "anchor": "Kyoto_to_Kobe"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 4,
+     "line": "Nara to Kobe",
+     "number": "7.4",
+     "index": "14",
+     "fromTitle": "Kansai",
+     "codepointOffset": 13259,
+     "anchor": "Nara_to_Kobe"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 3,
+     "line": "Tickets and passes",
+     "number": "7.5",
+     "index": "15",
+     "fromTitle": "Kansai",
+     "codepointOffset": 13530,
+     "anchor": "Tickets_and_passes"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "See",
+     "number": "8",
+     "index": "16",
+     "fromTitle": "Kansai",
+     "codepointOffset": 15795,
+     "anchor": "See"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 3,
+     "line": "World Heritage Sites",
+     "number": "8.1",
+     "index": "17",
+     "fromTitle": "Kansai",
+     "codepointOffset": 16208,
+     "anchor": "World_Heritage_Sites"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 3,
+     "line": "Castles",
+     "number": "8.2",
+     "index": "18",
+     "fromTitle": "Kansai",
+     "codepointOffset": 17330,
+     "anchor": "Castles"
+    },
+    {
+     "tocLevel": 3,
+     "hLevel": 4,
+     "line": "Original castles",
+     "number": "8.2.1",
+     "index": "19",
+     "fromTitle": "Kansai",
+     "codepointOffset": 17446,
+     "anchor": "Original_castles"
+    },
+    {
+     "tocLevel": 3,
+     "hLevel": 4,
+     "line": "Reconstructed castles",
+     "number": "8.2.2",
+     "index": "20",
+     "fromTitle": "Kansai",
+     "codepointOffset": 17861,
+     "anchor": "Reconstructed_castles"
+    },
+    {
+     "tocLevel": 3,
+     "hLevel": 4,
+     "line": "Castle ruins",
+     "number": "8.2.3",
+     "index": "21",
+     "fromTitle": "Kansai",
+     "codepointOffset": 18156,
+     "anchor": "Castle_ruins"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 3,
+     "line": "Gardens",
+     "number": "8.3",
+     "index": "22",
+     "fromTitle": "Kansai",
+     "codepointOffset": 18272,
+     "anchor": "Gardens"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 3,
+     "line": "Temples",
+     "number": "8.4",
+     "index": "23",
+     "fromTitle": "Kansai",
+     "codepointOffset": 18764,
+     "anchor": "Temples"
+    },
+    {
+     "tocLevel": 2,
+     "hLevel": 3,
+     "line": "Shrines",
+     "number": "8.5",
+     "index": "24",
+     "fromTitle": "Kansai",
+     "codepointOffset": 19382,
+     "anchor": "Shrines"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Eat",
+     "number": "9",
+     "index": "25",
+     "fromTitle": "Kansai",
+     "codepointOffset": 20229,
+     "anchor": "Eat"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Drink",
+     "number": "10",
+     "index": "26",
+     "fromTitle": "Kansai",
+     "codepointOffset": 21997,
+     "anchor": "Drink"
+    },
+    {
+     "tocLevel": 1,
+     "hLevel": 2,
+     "line": "Sleep",
+     "number": "11",
+     "index": "27",
+     "fromTitle": "Kansai",
+     "codepointOffset": 22379,
+     "anchor": "Sleep"
+    }
+   ],
+   "extensionData": []
+  },
+  "showtoc": true,
+  "wikitext": "{{pagebanner|Gion banner.jpg|caption=Gion Festival, Kyoto}}\n'''Kansai''' (関西) is the western region of the main [[Japan]]ese island of [[Honshu]], second only to the [[Kanto]] region of Eastern Japan in population. The area is also known as '''Kinki''' (近畿) District, literally \"near the capital\" (referring to the ancient capital [[Nara]] and [[Kyoto]]), and its three big cities - Kyoto ('''京'''都), [[Osaka]] (大'''阪'''),  and [[Kobe]] ('''神'''戸) - as '''Keihanshin''' (京阪神).\n\n==Prefectures==\n{{Regionlist\n| regionmap=Japan Kansai Map.png\n| regionmaptext=Kansai Region\n| regionmapsize=450px\n| regionInteractiveMap=map1\n\n| region1name=[[Hyogo]]\n| region1color=#d0d673\n| region1items=\n| region1description=the largest prefecture in Kansai, stretching from coast to coast and covering [[Kobe]] and [[Himeji]]\n\n| region2name=[[Kyoto (prefecture)|Kyoto]]\n| region2color=#73bec3\n| region2items=\n| region2description=best known for the city, but stretches up north to [[Amanohashidate]], one of [[Japan's Top 3]] sights\n\n| region3name=[[Mie]]\n| region3color=#d6b282\n| region3items=\n| region3description=eastern prefecture with one leg in [[Chubu]] (actually on the other side of Nagoya bay), best known for the [[Ise]] shrine and the famous Mikimoto \"Pearl Island\" at [[Toba]]\n\n| region4name=[[Nara (prefecture)|Nara]]\n| region4color=#71b37b\n| region4items=\n| region4description=Japan's oldest capital [[Nara]] and its surroundings\n\n| region5name=[[Osaka (prefecture)|Osaka]]\n| region5color=#d69942\n| region5items=\n| region5description=dominated by the city of [[Osaka]], it includes [[Sakai (Osaka)|Sakai]] city and numerous nearby suburbs \n\n| region6name=[[Shiga]]\n| region6color=#c3be73\n| region6items=\n| region6description=mountainous prefecture dominated by beautiful [[Lake Biwa]]\n\n| region7name=[[Wakayama (prefecture)|Wakayama]]\n| region7color=#d56d77\n| region7items=\n| region7description=mountains crisscrossed by the pilgrimage routes of the [[Kumano Kodo]], and the beaches of [[Shirahama]]\n}}\n\n{{mapshape|type=geoshape|fill=#d0d673|title=[[Hyogo]]|wikidata=Q130290}}\n{{mapshape|type=geoshape|fill=#73bec3|title=[[Kyoto (prefecture)|Kyoto]]|wikidata=Q120730}}\n{{mapshape|type=geoshape|fill=#d6b282|title=[[Mie]]|wikidata=Q128196}}\n{{mapshape|type=geoshape|fill=#71b37b|title=[[Nara (prefecture)|Nara]]|wikidata=Q131287}}\n{{mapshape|type=geoshape|fill=#d69942|title=[[Osaka (prefecture)|Osaka]]|wikidata=Q122723}}\n{{mapshape|type=geoshape|fill=#c3be73|title=[[Shiga]]|wikidata=Q131358}}\n{{mapshape|type=geoshape|fill=#D56D76|title=[[Wakayama (prefecture)|Wakayama]]|wikidata=Q131314}}\n\n==Cities==\n<!--{{mapframe|34.6|135.6|zoom=7}}-->\n{{mapshapes|Q164338}} <!-- Shinkasen (High speed rail) -->\n[[Image:Todaiji_Daibutsuden.JPG|thumb|240px|Todai-ji Temple, [[Nara]]]]\n* {{marker|type=city|name=[[Hikone]]|wikidata=Q386635}} - castle and garden town off the beaten track\n* {{marker|type=city|name=[[Himeji]]|wikidata=Q209801}} - small city famed for its beautiful castle\n* {{marker|type=city|name=[[Ise]]|wikidata=Q328067}} - home to the eponymous '''Ise Shrine''', the holiest in all Japan\n* {{marker|type=city|name=[[Kobe]]|wikidata=Q48320}} - maritime city known for its beef and Japan's oldest Chinatown\n* {{marker|type=city|name=[[Kyoto]]|wikidata=Q34600}} - Japan's ancient capital, with temples and ''geisha''\n* {{marker|type=city|name=[[Nara]]|wikidata=Q169134}} - an even more ancient capital (than Kyoto) centered around a beautiful park\n* {{marker|type=city|name=[[Osaka]]|wikidata=Q35765}} - mega-world city famed for its food and nightlife is the principal city of Kansai region\n* {{marker|type=city|name=[[Otsu]]|wikidata=Q202907}} - home to [[Mount Hiei]] and the temple where Tale of Genji was written\n* {{marker|type=city|name=[[Wakayama]]|wikidata=Q200747}} - Known for its castle, ramen, and its Stationmaster, Yontama the cat\n\n==Other destinations==\n\n* {{marker|type=vicinity|name=[[Arima Onsen]]|wikidata=Q4790673}} – one of Japan's Three Old Hot Springs just across the hill from Kobe\n* {{marker|type=vicinity|name=[[Kinosaki]]|wikidata=Q6414198}} – another famous historic spring town near the Sea of Japan\n* {{marker|type=vicinity|name=[[Awaji Island]]|wikidata=Q504373}} –- gateway to [[Shikoku]]\n* {{marker|type=vicinity|name=[[Kumano Kodo]]|wikidata=Q705035}} – collection of historic pilgrimages inscribed as a {{unesco}}\n* {{marker|type=vicinity|name=[[Lake Biwa]]|wikidata=Q200239}} – Japan's largest lake is nice for a quick break\n* {{marker|type=vicinity|name=[[Mount Hiei]]|wikidata=Q748040}} – headquarters of Tendai and protector of Kyoto\n* {{marker|type=vicinity|name=[[Mount Koya]]|wikidata=Q535065}} – mountaintop headquarters of the Buddhist Shingon sect.\n* {{marker|type=vicinity|name=[[Iga]]|wikidata=Q460820}} and {{marker|type=vicinity|name=[[Koka]]|wikidata=Q847584}} – hometowns of ninja\n\n==Understand==\nKansai is the cradle of the Japanese civilization, with former capital cities [[Asuka]], [[Nara]], and [[Kyoto]].\n\nDifferences between Kansai and Kanto (the eastern region dominated by [[Tokyo]]) are slight but numerous. Kansai people speak a distinctive dialect of Japanese, use lighter-colored soy in their cooking, ride on the other side of escalators and are renowned for humor and their love of food.\n\nWhile 22 million people live in Kansai, the region also has spectacular natural scenery, and four of the country's national parks.\n\n===Tourist information site===\n[https://www.the-kansai-guide.com/ The KANSAI Guide] is the official multilingual guide site for the whole area.\n\n==Talk==\n[[File:いわしを食べなあかん！.jpg|thumb|A Kansai exhortation to eat anchovies:\n''Iwashi wo tabena akan!'']]\n\nThe '''[[:wikipedia:Kansai dialect|Kansai dialect]]''' (関西弁 ''Kansai-ben'') is Japan's largest dialect group after [[Tokyo]]'s dialect group collectively. There are many subdialects, ranging from the elegant and euphemistic ''Kyo-kotoba'' (京言葉) of [[Kyoto]]'s courtiers to the gruff but imaginative merchant slang of [[Osaka]], much favored by Japanese comedians. Some notable features include the copula ''ya'' instead of ''da'' (including ''yatta/yarou'' for ''datta/darou''), the negative ending ''-hen'' instead of ''-nai'', the use of ''akan'' (あかん, アカン) instead of ''dame'' for \"No way!\", ''aho'' (あほ, アホ) instead of ''baka'' for \"idiot\", and ''ōki-ni'' (おおきに) instead of ''arigatō gozaimasu'' for \"Thanks\". Everybody understands standard Japanese too, but it is common for locals to reply in the local dialect even when spoken to in standard Japanese.\n\nThat said, most Kansaites are perfectly conversant in standard Japanese, so knowledge of the local dialect is by no means necessary, but even a few words will be appreciated. The canonical Osakan greeting is ''Mōkarimakka?'' (\"Making money?\"), to which the canonical reply is ''Bochi-bochi denna'' (\"Well, so-so\"); trying this out on a friend or acquaintance is guaranteed to produce a surprised smile, and make you look like a ''omoroi'' (funny) guy.\n\nEnglish is taught at all schools in Japan, and while it is less commonly spoken than in Tokyo you will find that younger people will often know enough English to communicate, especially those residing in the cities. Still, learning even a few important phrases in Japanese will be appreciated and not as difficult as many Westerners think.\n\n==Get in==\nKansai forms one end of the [[Golden Route]] between [[Tokyo]] and [[Kyoto]]. Many visitors choose to fly into Tokyo, travel the Route via bullet train, and fly out of Kansai.\n\n===By plane===\n{{seealso|Kansai International Airport}}\n\nThere are three major airports in the Kansai Metropolitan Area. The main international hub is [[Kansai International Airport]] ({{IATA|KIX}}), on an artificial island south of Osaka. The primary domestic airport is [[Osaka]]'s Itami Airport ({{IATA|ITM}}). [[Kobe#By plane|Kobe Airport]] ({{IATA|UKB}}), on another artificial island to the south of Kobe, also serves most major Japanese cities and a limited selection of international flights to greater China and Korea.\n\n===By train===\n\nThe Tokaido Shinkansen (bullet train) line from [[Tokyo]] serves [[Kyoto]], [[Osaka]] and [[Kobe]]. The San'yo Shinkansen connects to [[Okayama]], [[Hiroshima]] and [[Hakata]].\n\n==Get around==\n[[Image:020 N700 Series Shinkansen 新幹線 arriving at Kyoto Station, Japan.jpg|thumb|240px|Shinkansen train arriving at Kyoto Station]]\nThe three major cities of Kansai - '''Kyoto, Osaka and Kobe''' - are connected by a myriad of train routes. When traveling between two of these cities, it helps to determine what method of transportation fits your travel needs, and fits your budget... unless you have a '''Japan Rail Pass''', of course.\n\nBesides the Shinkansen, Japan Railways operates the main trunk line - the Tokaido Line - between Kyoto, Osaka and Kobe. The Kyoto-Osaka segment is known as the JR Kyoto Line, while the segment from Osaka to Kobe is the JR Kobe Line. The Special Rapid, or Shin-Kaisoku (新快速), generally leaves every 15 minutes with very fast transit times. If you do not have a Japan Rail Pass, however, JR can be more expensive compared to private railways.\n\n====Kyoto to Osaka====\n* The '''JR Kyoto Line''' connects Kyoto Station in southern Kyoto with Osaka Station in northern Osaka, stopping at Shin-Osaka for the Tokaido and San'yo Shinkansen trains. 30 minutes between Kyoto and Osaka via Special Rapid, ¥560. Free with the Japan Rail Pass.\n* The '''Hankyū Line''' (阪急) runs from central Kyoto, starting at Shijo and Kawaramachi streets. Trains exit Kyoto to the west and run into the massive Hankyū Umeda Terminal, located to the north of JR Osaka station. Limited express trains depart every ten minutes during most of the day. 45 minutes between Kawaramachi and Umeda, ¥390. Not vaild with the Japan Rail Pass.\n* The '''Keihan Line''' (京阪) runs from eastern Kyoto, starting from Demachiyanagi or Sanjo Street and operating parallel to the Kamo River past Gion and Kiyomizu Temple. Trains exit Kyoto to the south and run into central Osaka. After stops at Kyobashi (along the JR Osaka Loop Line) and Tenmabashi, the line splits: the main line runs to Yodoyabashi, while the Nakanoshima Line runs to Nakanoshima island. The fastest trains depart every ten minutes during most of the day. 51 minutes between Sanjo and Yodoyabashi, ¥400. One hour between Sanjo and Nakanoshima, ¥460. Reserved Premium Car seating on limited express trains are available for an additional ¥400-500 per trip. Not valid with the Japan Rail Pass.\n\nIf you do travel via the Keihan, an interesting thing to listen out for are the '''departure melodies''' - songs that are played before the train departs a station. Composed by Casiopea keyboardist and railroad enthusiast '''Minoru Mukaiya''' (向谷　実), each departure melody is part of an entire song - you will hear all parts of the song if you travel along the full route.\n\nAnother private railway that runs into Kyoto and Osaka is the '''Kintetsu Line''' (近鉄). One major drawback is that services run on separate lines requiring you to change trains at Yamato-Saidaiji, and the total travel time is slightly longer than other options as a result. On the other hand, if you have a little extra money, Kintetsu is one of the few operators that run reserved seating services - a reserved seat trip from Namba to Kyoto with a change of trains takes approximately 70 minutes and costs &yen;870 on top of the regular fare. Tickets for these services can easily be purchased at ticket machines, which offer English translation. Kintetsu is also a great way to travel between '''Kyoto and Nara.'''\n\nTo go from Kyoto to southern Osaka (where Kintetsu trains terminate), you would be better off taking one of the other routes listed above; when you reach Osaka, change to the southbound Midosuji subway line and get off at Nanba.\n\n====Osaka to Kobe====\n* The '''JR Kobe Line''' connects Osaka station in northern Osaka with Sannomiya and Kobe stations in Kobe; Sannomiya station is more centrally-located. 20 minutes between Osaka and Sannomiya via Special Rapid, ¥410. Free with the Japan Rail Pass.\n* The '''Hankyū Line''' runs from Umeda to Sannomiya, running to the north of the JR Line. Limited Express trains leave every ten minutes during most of the day. 27 minutes from Umeda to Sannomiya; ¥310. Not valid with the Japan Rail Pass.\n* The '''Hanshin Line''' (阪神) runs from its own Umeda station, south of JR Osaka, to Sannomiya, with trains continuing on to Himeji. Limited Express trains leave every ten minutes during most of the day. 29 minutes from Umeda to Sannomiya, ¥310. Not valid with the Japan Rail Pass.\n* '''Hanshin''' trains also run from Namba station in southern Osaka. Most services are a one-seat ride, otherwise you will have to change trains at Amagasaki. 45 minutes via Rapid Express, ¥400. Not valid with the Japan Rail Pass.\n\n====Kyoto to Kobe====\n* The '''JR Kyoto''' and '''Kobe Lines''' connect Kyoto with Sannomiya and Kobe stations. 50 minutes from Kyoto to Sannomiya via Special Rapid, ¥1080. Free with the Japan Rail Pass.\n* The '''Hankyū Line''' connects central Kyoto with Sannomiya, with a change of trains at Juso (north of Umeda) necessary. About 70 minutes from Kawaramachi to Sannomiya via Limited Express, ¥600. Not valid with the Japan Rail Pass.\n\n====Nara to Kobe====\n* '''Kintetsu''' trains run from the historical city of [[Nara]] to Sannomiya station on the '''Hanshin''' line via Namba. Direct trains leave every 20 minutes, reaching Sannomiya in 75 minutes at a cost of ¥940. Not valid with the Japan Rail Pass.\n\n===Tickets and passes===\nMost of Kansai's regional transportation companies have tied up to offer the '''ICOCA''' tickets, which can be used on pretty much any train, subway, monorail, cable car or bus in the region. The Nankai and JR trains from Kansai Airport are also included, and you can buy your card or pass at the airport's train station or – the most convenient option – directly through your smartphone's wallet app (e.g. Apple Wallet).\n\n* [https://www.westjr.co.jp/global/en/howto/icoca/ The '''ICOCA''' card] is a contactless smart card that can be used on JR West, JR East (Tokyo) and most private rail and bus companies in Kansai and [[Chugoku]] (Okayama, Hiroshima). Cards are available at ticket vending machines in train stations for ¥2000, including a refundable ¥500 deposit.  More money can be added at the same machines.\n* The '''[https://www.surutto.com/kansai_rw/en/ Kansai Railway Pass]{{Dead link|date=April 2026 |bot=InternetArchiveBot }}''' can be purchased as a two-day (¥5600) or a three-day (¥7000) pass. It is valid for two/three separate days within the validity period which is printed on the back (usually a couple of months). It can be used on most non-JR trains and buses (and even some cable cars) in Kyoto, [[Osaka]], [[Kobe]] and [[Nara]] with the notable exception of JR trains. The service area extends south to the [[Kansai International Airport]] and the city of [[Wakayama]] and southeast to [[Mount Koya]] (Check the [https://www.surutto.com/kansai_rw/en/krp.html#anchor04 Area Map]{{Dead link|date=April 2026 |bot=InternetArchiveBot }} on the webpage for details). In addition to free transport, these tickets offer a series of small discounts to temples, museums and other attractions in the region. Be aware that you'll have to travel quite a bit to make them pay off. (''Note:''  You might be asked to show your passport when you purchase this card.)\n* JR-West also offers the '''[https://www.westjr.co.jp/global/en/ticket/pass/kansai/ Kansai Area Pass]''', which costs ¥2800/¥4800/¥5800/¥7000 for 1/2/3/4 days respectively and is valid for unlimited travel on JR standard and Haruka limited express trains (non-reserved seats only). The area covered is approximately the same as for the Kansai Railway Pass above.\n\n==See==\n[[File:新宮市にて 熊野速玉大社 2012.8.22 - panoramio.jpg|thumb|250px|Kumano Hayatama Shrine]]\n\nWith its political and geographical significance in the history of Japan, the region of Kansai possesses three quarters of Japan's \"National Treasure\" buildings, half of its \"National Treasure\" artworks, as well as five [[UNESCO World Heritage Site]]s, making it an unmatched destination for heritage tourists to Japan.\n\n===World Heritage Sites===\n* '''Horyuji Temple''' and '''Hokkiji Temple''' in [[Horyuji]] became the nation's very first World Heritage Sites in 1993.\n* '''Himeji Castle''', ([[Himeji]]) the largest original castle in Japan.\n*  Eight sites in [[Nara]] make up the '''Historic Monuments of Ancient Nara''', including Todai-ji which houses one of the world's most famous Buddha statues, the beautiful Kasuga Shrine and the Kasuga Primeval Forest on the mountain behind it, Heijo-kyo the former palace site, and four other temples.\n* The '''Historic Monuments of Ancient Kyoto''' are a list of 14 sites in [[Kyoto#World Heritage Sites]], 2 in [[Uji]] (Byodoin and Ujigami Shrine), and 1 in [[Otsu]] (Enryaku-ji on Mount Hiei).\n* The shrines and temples of [[Yoshino]], [[Mount Koya]] and [[Kumano]] are all part of the single site known as the '''Sacred Sites and Pilgrimage Routes in the Kii Mountain Range'''.\n* The '''Mozu-Furuichi Kofungun Ancient Tumulus Structures''' are a collection of burial mounds in [[Sakai (Osaka)|Sakai]] and [[Fujiidera]]. The Nintoku Tombs are the largest and most important of the listings.\n\n===Castles===\n[[File:Flickr - yeowatzup - Hikone Castle, Hikone, Shiga, Japan.jpg|thumb|right|250px|Hikone Castle]]\n====Original castles====\nKansai is home to two of the nation's remaining original castles. Both are designated National Treasures.\n* '''Himeji Castle''' ([[Himeji]]) World Heritage Site reopened in 2015 after years of renovation, the \"White Heron Castle\" is now whiter than ever.\n* '''Hikone Castle''' ([[Hikone]]) An impressive castle that also retains its original accompanying garden and an informative museum.\n\n====Reconstructed castles====\n* Osaka Castle, [[Osaka]]\n* Ako Castle, [[Ako]]\n* Nijo Castle, [[Kyoto]]\n* Fushimi Castle, [[Kyoto]]\n* Fukuchiyama Castle, [[Fukuchiyama]]\n* Kishiwada Castle, [[Kishiwada]]\n* Wakayama Castle, [[Wakayama]]\n* Iga Ueno Castle, [[Iga]]\n* Nagahama Castle, [[Nagahama]]\n\n====Castle ruins====\n* Takeda Castle, [[Asago]]\n* Azuchi Castle, [[Omihachiman]]\n* Matsusaka Castle, [[Matsusaka]]\n\n===Gardens===\n[[File:Yoshikien garden in nara japan stones.jpg|thumb|right|250px|Isuien Garden path]]\n* '''Genkyuen Garden''' - Garden of the lords of Hikone Castle ([[Hikone]])\n* '''Shoseien Garden''' - A quiet garden villa in central Kyoto owned by Honganji Temple ([[Kyoto]])\n* '''Kokoen Garden''' A modern garden with a pond, herb garden, and bamboo grove ([[Himeji]])\n* '''Isuien Garden''' Beautiful garden that utilizes Todaiji Temple and Mount Wakakusa as borrowed scenery ([[Nara]])\n\n===Temples===\nAs the former capital, [[Kyoto]] and the surrounding environ is home to a large number of the nation's top temples and shrines. Kyoto is home to the head temples of many Buddhist sects, such as Chionin (head of the Jodo Sect), the Honganji Temples (heads of Jodo Shinshu sect), and Manpukuji Temple (head of the Obaku sect). The nearby mountain of Enryakuji Temple in [[Otsu]] is head of the Tendai sect and [[Mount Koya]]'s Kongobuji Temple is the head of the Shingon sect.\n\nThe Byodoin Temple in [[Uji]] is a well-known Pure Land temple known for its architecture and its feature on the 10-yen coin. \n\n===Shrines===\n[[File:Kaze-no-miya - Geku, Ise Shrine - Ise, Mie, Japan - DSC07872.jpg|right|250px|thumb|Ise Shrine's Geku area]]\n* '''Ise Shrine''' The top Shinto Shrine with its primary deity being the goddess Amaterasu ([[Ise]])\n* '''Kumano Sanzan''' A three-shrine pilgrimage in southern Wakayama, consisting of '''Kumano Nachi Shrine''' home to one of Japan's highest waterfalls in [[Nachikatsuura]], '''Nachi Hayatama Shrine''' in [[Shingu]], and '''Kumano Hongu Shrine''' in [[Tanabe]].\n* Sumiyoshi Shrine ([[Osaka]])\n* Shimogamo Shrine ([[Kyoto]])\n* Fushimi Inari Shrine (Kyoto)\n* Omi Jingu ([[Otsu]]) known as a shrine for the karuta card game\n* Omiwa Shrine ([[Sakurai]]), one of the oldest shrines in the country \n* Kasuga Shrine ([[Nara]])\n* '''Shirahige Shrine''' A shrine by Lake Biwa with its torii gate in the lake ([[Takashima]])\n\n==Eat==\nKansai cooking is subtly different from the Kanto style, although the average short-term visitor is unlikely to spot many differences. Perhaps the most visible differences are a tendency to use light-colored soy instead of dark, especially in soups, and a preference for thick white ''udon'' noodles over the thin buckwheat ''soba'' noodles of eastern Japan.\n\nSome famous Kansai dishes include:\n*'''sabazushi''' (鯖寿司 mackerel sushi), ''Battera'' of Osaka, ''sabazushi'' in Kyoto, or ''kaki-no-ha zushi'' (柿の葉寿司) from Nara are local variants of this type\n*'''okonomiyaki''' (お好み焼き), variously described as Japanese pizza or pancakes. Although [[Hiroshima]] also makes a strong claim for this name, they are in fact reasonably different from each other. (Hiroshima style tends to come cooked on a pile of noodles.)\n*'''takoyaki''' (たこ焼き) is the common name for the fried balls of octopus and batter.  ''Akashiyaki'' (明石焼き) from Akashi City area is recognized as the origin of the more famous Osaka-style ''takoyaki''. As opposed to the Osaka-style being served with dark and thick sauce on it, Akashiyaki are eaten without sauce but dipped into clear soup. When visiting ''takoyaki'' bars, the various fillings mentioned are generally substituted for octopus, rather than being an addition.\n*'''Japanese beef''' (和牛 ''wagyū''). ''Kobe beef'' (神戸牛 ''Kobe-gyū'') gets all the press overseas, but in Japan itself ''Matsusaka beef'' (松阪牛), ''Tajima beef'' (但馬牛) and ''Omi beef'' (近江牛) are all very well regarded.\n*'''udon''' (うどん, thick wheat noodle) is the popular noodle in Osaka instead of ''soba'' using buckwheat in [[Tokyo]]. Another udon area, Sanuki ([[Kagawa]] Prefecture) in [[Shikoku]], is famous for chewy noodle, while Osaka is famous for soft noodle.\n\n==Drink==\n\nKansai is ''sake'' country, with '''Nada''' (in [[Kobe]]) and '''Fushimi''' (in [[Kyoto]]) alone accounting for 45% of the country's production. Kobe in particular is a good place to tour sake breweries, many of which are open to visitors. \n\n'''Yamazaki''', in [[Takatsuki]] southwest of Kyoto, is known for Japan's oldest commercial whisky distillery owned by Suntory.\n\n==Sleep==\nVisitors to Kansai often face a conundrum: which town should they base themselves in?\n\nConventional wisdom says you should go to Kyoto for culture and Osaka for the food and nightlife, and many end up splitting their nights so they can sample both. However, given that the cities are just 30 minutes apart, this is an unnecessary hassle and you're better off picking just one.\n\nIf you're visiting mostly for the culture and history, [[Kyoto]] is the obvious choice. Not only does it have Japan's highest concentration of tourist sites, but as a city of 1.5 million it also has countless eating and drinking options for all tastes and price brackets. Unlike Osaka, it also has many ''[[ryokan]]'' (traditional Japanese inns) if you'd like to sample one. There is, however, one downside: Kyoto also has more tourists than anywhere else in Japan.\n\nIf you're more interested in shopping, nightlife and neon, flip the script and stay in [[Osaka]]. As the largest city in Kansai it's more than capable of absorbing a few visitors, the eating scene is unparalleled and there are countless accommodation options too.\n\nTo get ever so slightly off the beaten path, consider staying in [[Nara]], which is within easy day-tripping distance to its big-city cousins but far less frenetic and costly to stay at. Alternatively, you could split the difference and stay in one of the commuter towns between Kyoto and Osaka, like [[Takatsuki]] or [[Hirakata]].\n\n{{geo|34.5|135.0|zoom=8}}\n{{IsPartOf|Japan}}\n{{usableregion}}"
+ }
+}

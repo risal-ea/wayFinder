@@ -1,0 +1,79 @@
+{
+ "batchcomplete": true,
+ "query": {
+  "geosearch": [
+   {
+    "pageid": 18579,
+    "ns": 0,
+    "title": "Kyoto",
+    "lat": 35.011667,
+    "lon": 135.768333,
+    "dist": 22.5,
+    "primary": true
+   },
+   {
+    "pageid": 18584,
+    "ns": 0,
+    "title": "Kyoto/Higashiyama",
+    "lat": 35.01847,
+    "lon": 135.7826,
+    "dist": 1525.5,
+    "primary": true
+   },
+   {
+    "pageid": 18582,
+    "ns": 0,
+    "title": "Kyoto/Central",
+    "lat": 34.98715,
+    "lon": 135.75979,
+    "dist": 2822.1,
+    "primary": true
+   },
+   {
+    "pageid": 18585,
+    "ns": 0,
+    "title": "Kyoto/North",
+    "lat": 35.04,
+    "lon": 135.748,
+    "dist": 3650,
+    "primary": true
+   },
+   {
+    "pageid": 18581,
+    "ns": 0,
+    "title": "Kyoto/Arashiyama",
+    "lat": 35.008,
+    "lon": 135.71,
+    "dist": 5306.6,
+    "primary": true
+   },
+   {
+    "pageid": 18586,
+    "ns": 0,
+    "title": "Kyoto/South",
+    "lat": 34.962,
+    "lon": 135.748,
+    "dist": 5811.3,
+    "primary": true
+   },
+   {
+    "pageid": 26254,
+    "ns": 0,
+    "title": "Otsu",
+    "lat": 35.016666666667,
+    "lon": 135.85,
+    "dist": 7479.9,
+    "primary": true
+   },
+   {
+    "pageid": 23193,
+    "ns": 0,
+    "title": "Mount Hiei",
+    "lat": 35.066666666667,
+    "lon": 135.83833333333,
+    "dist": 8853.2,
+    "primary": true
+   }
+  ]
+ }
+}
